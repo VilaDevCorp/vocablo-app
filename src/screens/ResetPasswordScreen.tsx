@@ -18,6 +18,8 @@ import StatusCode from 'status-code-enum';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {PublicScreenNavList} from '../types/navProps';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {CodeInput} from '../components/ui/CodeInput/CodeInput';
+import {InfoMessage} from '../components/atoms/InfoMessage';
 
 type Props = NativeStackScreenProps<PublicScreenNavList, 'ResetPassword'>;
 
@@ -42,7 +44,7 @@ export function ResetPasswordScreen({route}: Props) {
   const [passwordMatchError, setPasswordMatchError] = useState<string>('');
   const [passwordMatchDirty, setPasswordMatchDirty] = useState<boolean>(false);
 
-  const [validationCode, setValidationCode] = useState<string>('');
+  const [validationCode, setValidationCode] = useState<string>('------');
   const [
     validationCodeDirty,
     validationCodeError,
@@ -76,61 +78,61 @@ export function ResetPasswordScreen({route}: Props) {
     if (passwordValid && passwordMatchValid && validationCodeValid) {
       await resetPassword(username, validationCode, password);
     } else {
-      showToast('There are errors in the form', undefined, 'error');
+      showToast('There are errors in the form', 'alert', 'error');
     }
   };
   const {mutate: onChangePassword, isPending: isLoading} = useMutation({
     mutationFn: changePassword,
-    onSettled: () => {
-      showToast('The password has been changed', undefined, 'success');
-      navigate('Login');
-    },
     onSuccess: () => {
-      showToast('The password has been changed', undefined, 'success');
+      showToast('The password has been changed', 'check', 'success');
+      navigate('Login');
     },
     onError: e => {
       if (e instanceof ApiError) {
         if (e.statusCode === StatusCode.ClientErrorConflict) {
-          showToast('The code has already been used', undefined, 'error');
+          showToast('The code has already been used', 'alert', 'error');
           return;
         }
         if (e.statusCode === StatusCode.ClientErrorGone) {
-          showToast('The code has expired', undefined, 'error');
+          showToast('The code has expired', 'alert', 'error');
           return;
         }
         if (
           e.statusCode === StatusCode.ClientErrorUnauthorized &&
           e.code === ErrorCode.INCORRECT_VALIDATION_CODE
         ) {
-          showToast('The code is invalid', undefined, 'error');
+          showToast('The code is invalid', 'alert', 'error');
           return;
         }
       }
-      showToast('An internal error occurred', undefined, 'error');
+      showToast('An internal error occurred', 'alert', 'error');
     },
   });
 
   const disabledButton =
-    isLoading || passwordError || passwordMatchError !== '';
+    isLoading ||
+    passwordError ||
+    passwordMatchError !== '' ||
+    new RegExp('^\\d{6}$').test(validationCode) === false;
 
   return (
     <View style={{flex: 1}}>
       <Form
         fields={
           <>
+            <InfoMessage style={{marginBottom: 8}}>
+              {
+                'Enter the code received on your email and the new password for your account'
+              }
+            </InfoMessage>
             <FormField
               input={
-                <Input
-                  value={validationCode}
-                  setValue={setValidationCode}
+                <CodeInput
+                  charNumber={6}
+                  code={validationCode}
+                  setCode={setValidationCode}
                   onBlur={() => setDirtyValidationCode()}
                 />
-              }
-              label="Code"
-              error={
-                validationCodeDirty && validationCodeError
-                  ? validationCodeMessage
-                  : undefined
               }
             />
             <FormField
@@ -138,12 +140,13 @@ export function ResetPasswordScreen({route}: Props) {
                 <Input
                   value={password}
                   setValue={setPassword}
+                  icon="lock"
                   type="password"
+                  placeholder="New password"
                   onBlur={() => setDirtyPassword()}
                 />
               }
-              label="New password"
-              error={
+              errorMsg={
                 passwordDirty && passwordError ? passwordMessage : undefined
               }
             />
@@ -151,12 +154,13 @@ export function ResetPasswordScreen({route}: Props) {
               input={
                 <Input
                   value={repeatPassword}
+                  icon="lock"
                   setValue={setRepeatPassword}
                   type="password"
+                  placeholder="Repeat new password"
                 />
               }
-              label="Repeat password"
-              error={passwordMatchDirty ? passwordMatchError : undefined}
+              errorMsg={passwordMatchDirty ? passwordMatchError : undefined}
             />
           </>
         }

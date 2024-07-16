@@ -1,24 +1,30 @@
-import React, {Dispatch, SetStateAction} from 'react';
+import React, {Dispatch, ReactNode, SetStateAction, useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Icon} from '../Icon/Icon';
+import {colors} from '../../../styleVars';
+import {Typography} from '../Typography/Typography';
 
 export function Checkbox({
   checked,
   onChange,
-  label,
+  children,
 }: {
   checked: boolean;
   onChange: Dispatch<SetStateAction<boolean>>;
-  label: string;
+  children: ReactNode;
 }) {
+  const [pressed, setPressed] = useState(false);
+
   return (
     <Pressable
       style={style.mainBox}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
       onPress={() => onChange(checked => !checked)}>
-      <View style={[style.checkbox, checked && style.checked]}>
-        {checked && <Icon type="check" size={16} color="white" />}
+      <View style={[style.checkbox, pressed && style.pressed]}>
+        {checked && <Icon type="check" size={24} color={colors.accent[600]} />}
       </View>
-      <Text style={style.label}>{label}</Text>
+      <Typography>{children}</Typography>
     </Pressable>
   );
 }
@@ -31,15 +37,15 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   checkbox: {
-    width: 20,
-    height: 20,
+    width: 32,
+    height: 32,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: 'white',
+    borderWidth: 3,
+    borderRadius: 6,
+    borderColor: colors.primary[500],
+    backgroundColor: 'transparent',
   },
-  checked: {backgroundColor: 'black'},
-  label: {color: 'black', fontSize: 16, fontWeight: 'bold'},
+  pressed: {borderColor: colors.accent[600]},
 });

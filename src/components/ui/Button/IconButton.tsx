@@ -13,7 +13,6 @@ type IconButtonProps = {
   isLoading?: boolean;
   icon: SystemIcons;
   fontColor?: string;
-  size?: number;
   iconSize?: number;
 };
 
@@ -25,7 +24,6 @@ export function IconButton(props: IconButtonProps) {
     isLoading = false,
     icon,
     fontColor,
-    size,
     iconSize,
   } = props;
 
@@ -34,19 +32,11 @@ export function IconButton(props: IconButtonProps) {
   const getBgColor = () => {
     switch (variant) {
       case 'solid':
-        return disabled
-          ? colors.neutral[200]
-          : pressed
-          ? colors.primary[700]
-          : colors.primary[500];
+        return pressed ? colors.primary[700] : colors.primary[500];
       case 'outlined':
-        return disabled
-          ? colors.neutral[0]
-          : pressed
-          ? colors.neutral[100]
-          : 'transparent';
+        return pressed ? colors.neutral[100] : 'transparent';
       case 'ghost':
-        return pressed && !disabled ? colors.neutral[100] : 'transparent';
+        return pressed ? colors.neutral[100] : 'transparent';
     }
   };
 
@@ -56,20 +46,20 @@ export function IconButton(props: IconButtonProps) {
     }
     switch (variant) {
       case 'solid':
-        return disabled ? colors.neutral[400] : colors.neutral[0];
+        return colors.neutral[100];
       case 'outlined':
-        return disabled ? colors.neutral[400] : colors.primary[500];
+        return colors.primary[500];
       case 'ghost':
-        return disabled ? colors.neutral[400] : colors.primary[500];
+        return pressed ? colors.accent[600] : colors.primary[500];
     }
   };
 
   const getBorderColor = () => {
     switch (variant) {
       case 'solid':
-        return disabled ? colors.neutral[200] : colors.primary[500];
+        return pressed ? colors.accent[600] : colors.primary[500];
       case 'outlined':
-        return disabled ? colors.neutral[200] : colors.primary[500];
+        return pressed ? colors.accent[600] : colors.primary[500];
       case 'ghost':
         return 'transparent';
     }
@@ -77,40 +67,39 @@ export function IconButton(props: IconButtonProps) {
 
   const styles = StyleSheet.create({
     box: {
-      paddingHorizontal: 16,
-      paddingVertical: 8,
-      width: size ? size : 40,
-      height: size ? size : 40,
-      borderRadius: 100,
+      borderRadius: 12,
+      minHeight: 50,
+      minWidth: 50,
+      height: 50,
+      width: 50,
       backgroundColor: getBgColor(),
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center',
-      gap: 8,
       alignItems: 'center',
-      borderWidth: 1,
+      borderWidth: 3,
       borderColor: getBorderColor(),
+      opacity: disabled ? 0.4 : 1,
     },
     text: {
       textAlign: 'center',
       color: getFontColor(),
-      fontSize: 16,
-      fontWeight: '700',
+      fontSize: 24,
     },
   });
 
   return (
     <Pressable
       style={styles.box}
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
+      onPressIn={() => !disabled && setPressed(true)}
+      onPressOut={() => !disabled && setPressed(false)}
       onPress={onPress}
       disabled={disabled || isLoading}>
       {isLoading ? (
-        <LoadingIcon size={iconSize ? iconSize : 16} color={getFontColor()} />
+        <LoadingIcon size={iconSize ? iconSize : 24} color={getFontColor()} />
       ) : (
         <Icon
-          size={iconSize ? iconSize : 16}
+          size={iconSize ? iconSize : 24}
           type={icon}
           color={getFontColor()}
         />

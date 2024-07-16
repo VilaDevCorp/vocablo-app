@@ -5,6 +5,7 @@ import {PublicScreen} from './src/screens/PublicScreen';
 import {Toast} from './src/components/ui/Toast/Toast';
 import {useAuth} from './src/hooks/useAuth';
 import {PrivateScreen} from './src/screens/PrivateScreen';
+import {colors} from './src/styleVars';
 
 export const Body = () => {
   const {csrf} = useAuth();
@@ -24,7 +25,7 @@ export const Body = () => {
 const style = StyleSheet.create({
   safeViewLayout: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.neutral[100],
   },
   content: {
     flex: 1,

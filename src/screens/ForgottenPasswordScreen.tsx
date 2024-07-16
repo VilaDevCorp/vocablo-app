@@ -10,6 +10,7 @@ import {useMutation} from '@tanstack/react-query';
 import {useToast} from '../hooks/useToast';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {PublicScreenNavList} from '../types/navProps';
+import {InfoMessage} from '../components/atoms/InfoMessage';
 
 export function ForgottenPasswordScreen() {
   const {navigate} = useNavigation<NavigationProp<PublicScreenNavList>>();
@@ -29,18 +30,18 @@ export function ForgottenPasswordScreen() {
     if (usernameValidate()) {
       await forgottenPassword(username);
     } else {
-      showToast('There are errors in the form', undefined, 'error');
+      showToast('There are errors in the form', 'alert', 'error');
     }
   };
 
   const {mutate: onSendCode, isPending: isLoading} = useMutation({
     mutationFn: sendCode,
     onSuccess: () => {
-      showToast('The code was succesfully sent!', undefined, 'success');
+      showToast('The code was succesfully sent!', 'check', 'success');
       navigate('ResetPassword', {username});
     },
     onError: () => {
-      showToast('There was an error sending the new code', undefined, 'error');
+      showToast('There was an error sending the new code', 'alert', 'error');
     },
   });
 
@@ -49,17 +50,28 @@ export function ForgottenPasswordScreen() {
     <View style={{flex: 1}}>
       <Form
         fields={
-          <FormField
-            input={
-              <Input
-                value={username}
-                setValue={setUsername}
-                onBlur={() => setDirtyUsername()}
-              />
-            }
-            label="Username"
-            error={usernameDirty && usernameError ? usernameMessage : undefined}
-          />
+          <View style={{gap: 16}}>
+            <InfoMessage>
+              {
+                'Write your username and we will send you an email with a code to reset your password'
+              }
+            </InfoMessage>
+            <FormField
+              input={
+                <Input
+                  value={username}
+                  setValue={setUsername}
+                  onBlur={() => setDirtyUsername()}
+                  icon="user"
+                  autoCapitalize="none"
+                  placeholder="Username"
+                />
+              }
+              errorMsg={
+                usernameDirty && usernameError ? usernameMessage : undefined
+              }
+            />
+          </View>
         }
         buttons={
           <Button

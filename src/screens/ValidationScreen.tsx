@@ -1,28 +1,24 @@
-import {
-  NavigationProp,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
-import React, {useRef, useState} from 'react';
-import {Text, TextInput, View} from 'react-native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
+import {Text, View} from 'react-native';
 import {PublicScreenNavList} from '../types/navProps';
-import {notEmptyValidator, useValidator} from '../hooks/useValidator';
-import {Input} from '../components/ui/Input/Input';
 import {Button} from '../components/ui/Button/Button';
-import Logo from '../../assets/logo.svg';
 import {Form} from '../components/ui/Form/Form';
-import {FormField} from '../components/ui/FormField/FormField';
 import {colors} from '../styleVars';
 import {Link} from '../components/ui/Link/Link';
 import {useMutation} from '@tanstack/react-query';
 import {useAuth} from '../hooks/useAuth';
-import {useReactQuery} from '../hooks/useReactQuery';
 import {useToast} from '../hooks/useToast';
 import {ApiError, ErrorCode} from '../types/types';
 import StatusCode from 'status-code-enum';
 import {useError} from '../hooks/useError';
 import {useApi} from '../hooks/useApi';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Icon} from '../components/ui/Icon/Icon';
+import {Typography} from '../components/ui/Typography/Typography';
+import {CodeInput} from '../components/ui/CodeInput/CodeInput';
+import {InfoMessage} from '../components/atoms/InfoMessage';
+import {FormField} from '../components/ui/FormField/FormField';
 
 type Props = NativeStackScreenProps<PublicScreenNavList, 'Validation'>;
 
@@ -34,14 +30,7 @@ export function ValidationScreen({route}: Props) {
   const {setError} = useError(navigate);
   const {showToast} = useToast();
 
-  const [validationCode, setValidationCode] = useState<string>('');
-  const [
-    validationCodeDirty,
-    validationCodeError,
-    validationCodeMessage,
-    validationCodeValidate,
-    setDirtyValidationCode,
-  ] = useValidator(validationCode, [notEmptyValidator]);
+  const [validationCode, setValidationCode] = useState<string>('------');
 
   const [validationSuccess, setValidationSuccess] = useState<boolean>(false);
 
@@ -49,15 +38,16 @@ export function ValidationScreen({route}: Props) {
     await sendValidationCode(username);
   };
 
-  const {mutate: onResendCode} = useMutation({
+  const {mutate: onResendCode, isPending: isSendingCode} = useMutation({
     mutationFn: resendCode,
     onSuccess: () => {
-      showToast('The code was succesfully sent!', undefined, 'success');
+      showToast('The code was succesfully sent!', 'check', 'success');
+      setValidationCode('------');
     },
     onError: e => {
       if (e instanceof ApiError) {
         if (e.statusCode === StatusCode.ClientErrorConflict) {
-          showToast('The account is already validated', undefined, 'error');
+          showToast('The account is already validated', 'alert', 'error');
           return;
         }
       }
@@ -79,60 +69,65 @@ export function ValidationScreen({route}: Props) {
       },
       onError: e => {
         if (e instanceof ApiError) {
+          console.log(e);
           if (e.statusCode === StatusCode.ClientErrorConflict) {
-            showToast('The code has already been used', undefined, 'error');
+            showToast(
+              'The code has already been used. Send another.',
+              'alert',
+              'error',
+            );
             return;
           }
           if (e.statusCode === StatusCode.ClientErrorGone) {
-            showToast('The code has expired', undefined, 'error');
+            showToast(
+              'The code has expired. Send another.',
+              undefined,
+              'error',
+            );
             return;
           }
           if (
             e.statusCode === StatusCode.ClientErrorUnauthorized &&
             e.code === ErrorCode.INCORRECT_VALIDATION_CODE
           ) {
-            showToast('The code is invalid', undefined, 'error');
+            showToast('The code is invalid', 'alert', 'error');
             return;
           }
         }
-        showToast('An internal error occurred', undefined, 'error');
+        showToast('An internal error occurred', 'alert', 'error');
       },
     });
 
-  const disabledValidateButton = isValidationLoading || validationCodeError;
+  const disabledValidateButton =
+    isValidationLoading ||
+    isSendingCode ||
+    new RegExp('^\\d{6}$').test(validationCode) === false;
 
   return (
     <View style={{flex: 1}}>
       {!validationSuccess ? (
         <Form
           fields={
-            <>
-              <Text style={{color: colors.neutral[900], fontWeight: 'bold'}}>
-                {'Your account has not been validated'}
-              </Text>
-              <Text style={{color: colors.neutral[800]}}>
-                {'Insert the code sent to your email to validate it'}
-              </Text>
-              <Input
-                value={validationCode}
-                setValue={setValidationCode}
-                onBlur={() => setDirtyValidationCode()}
+            <View style={{gap: 18}}>
+              <InfoMessage>
+                {
+                  'Your account has not been validated yet. Write the code received on your email.'
+                }
+              </InfoMessage>
+              <CodeInput
+                code={validationCode}
+                setCode={setValidationCode}
+                charNumber={6}
               />
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: 8,
-                  alignItems: 'center',
-                }}>
-                <Text style={{color: 'black'}}>
-                  {'You did not receive the code?'}
-                </Text>
-                <Button variant="ghost" onPress={() => onResendCode()}>
-                  {'Resend code'}
-                </Button>
-              </View>
-            </>
+              <Button
+                variant="outlined"
+                iconLeft="repeat"
+                isLoading={isSendingCode}
+                disabled={isSendingCode}
+                onPress={() => onResendCode()}>
+                {'Send another code'}
+              </Button>
+            </View>
           }
           buttons={
             <Button
@@ -144,13 +139,22 @@ export function ValidationScreen({route}: Props) {
           }
         />
       ) : (
-        <View style={{gap: 16, alignItems: 'center'}}>
-          <Text style={{color: colors.success[900], fontWeight: 'bold'}}>
-            {'Your account has been validated'}
-          </Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{color: colors.neutral[800]}}>{'You can now '}</Text>
-            <Link onPress={() => navigate('Login')}>login</Link>
+        <View>
+          <View style={{gap: 8, alignItems: 'center'}}>
+            <Icon type="check" size={64} color={colors.success[900]} />
+            <Text
+              style={{
+                color: colors.success[900],
+                fontSize: 18,
+                marginBottom: 8,
+                fontFamily: 'MerriweatherSans-Bold',
+              }}>
+              {'Your account has been validated'}
+            </Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={{color: colors.neutral[800]}}>{'You can now '}</Text>
+              <Link onPress={() => navigate('Login')}>login</Link>
+            </View>
           </View>
         </View>
       )}

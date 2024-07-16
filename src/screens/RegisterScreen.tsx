@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {useError} from '../hooks/useError';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
@@ -20,6 +20,7 @@ import {Button} from '../components/ui/Button/Button';
 import {useToast} from '../hooks/useToast';
 import {Checkbox} from '../components/ui/Checkbox/Checkbox';
 import {Form} from '../components/ui/Form/Form';
+import {Link} from '../components/ui/Link/Link';
 
 export function RegisterScreen() {
   const [username, setUsername] = useState<string>('');
@@ -85,11 +86,15 @@ export function RegisterScreen() {
         setServiceTermsAcceptedError('');
         return true;
       } else {
-        setServiceTermsAcceptedError('You must accepte the terms of service');
+        setServiceTermsAcceptedError('You must accept the terms of service');
         return false;
       }
     }
   };
+
+  useEffect(() => {
+    serviceTermsAcceptedValidate();
+  }, [serviceTermsAccepted]);
 
   const registerUser = async () => {
     const usernameValid = usernameValidate();
@@ -104,15 +109,7 @@ export function RegisterScreen() {
       passwordMatch &&
       serviceTermsAccepted
     ) {
-      console.log(
-        usernameValid,
-        emailValid,
-        passwordValid,
-        passwordMatch,
-        serviceTermsAccepted,
-      );
       await register({username, email, password});
-      console.log('User registered');
     } else {
       throw new Error('There are errors in the form');
     }
@@ -121,18 +118,18 @@ export function RegisterScreen() {
   const {mutate: onRegister, isPending: isLoading} = useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
-      showToast('User succesfully registered', undefined, 'success');
+      showToast('User succesfully registered', 'check', 'success');
       navigate('Login');
     },
     onError: e => {
       if (e instanceof ApiError) {
         if (e.statusCode === StatusCode.ClientErrorConflict) {
           if (e.code === ErrorCode.USERNAME_ALREADY_IN_USE) {
-            showToast('The username is already in use', undefined, 'error');
+            showToast('The username is already in use', 'alert', 'error');
             return;
           }
           if (e.code === ErrorCode.EMAIL_ALREADY_IN_USE) {
-            showToast('The email is already in use', undefined, 'error');
+            showToast('The email is already in use', 'alert', 'error');
             return;
           }
         }
@@ -154,69 +151,84 @@ export function RegisterScreen() {
 
   return (
     <View style={{flex: 1}}>
-      <Text>{'Sign up'}</Text>
       <Form
         fields={
           <>
             <FormField
-              label="Username"
-              error={
-                usernameDirty && usernameError ? usernameMessage : undefined
-              }
               input={
                 <Input
                   value={username}
                   setValue={setUsername}
+                  autoCapitalize="none"
+                  placeholder="Username"
+                  icon="user"
                   onBlur={() => setDirtyUsername()}
                 />
               }
+              errorMsg={
+                usernameDirty && usernameError ? usernameMessage : undefined
+              }
             />
             <FormField
-              label="Email"
-              error={emailDirty && emailError ? emailMessage : undefined}
               input={
                 <Input
                   value={email}
+                  icon="mail"
+                  autoCapitalize="none"
+                  placeholder="Email"
                   setValue={setEmail}
                   onBlur={() => setDirtyEmail()}
                 />
               }
+              errorMsg={emailDirty && emailError ? emailMessage : undefined}
             />
             <FormField
-              label="Password"
-              error={
-                passwordDirty && passwordError ? passwordMessage : undefined
-              }
               input={
                 <Input
                   value={password}
                   setValue={setPassword}
+                  autoCapitalize="none"
                   onBlur={() => setDirtyPassword()}
                   type="password"
+                  icon="lock"
+                  placeholder="Password"
                 />
+              }
+              errorMsg={
+                passwordDirty && passwordError ? passwordMessage : undefined
               }
             />
             <FormField
-              label="Repeat Password"
-              error={passwordMatchDirty ? passwordMatchError : undefined}
               input={
                 <Input
                   value={repeatPassword}
                   setValue={setRepeatPassword}
+                  autoCapitalize="none"
+                  placeholder="Repeat Password"
+                  icon="lock"
                   type="password"
                 />
               }
+              errorMsg={passwordMatchDirty ? passwordMatchError : undefined}
             />
             <FormField
               input={
                 <Checkbox
                   checked={serviceTermsAccepted}
-                  onChange={setServiceTermsAccepted}
-                  label="I accept the terms of service"
-                />
+                  onChange={setServiceTermsAccepted}>
+                  <>
+                    {'I accept the '}
+                    <Link
+                      onPress={e => {
+                        e.stopPropagation();
+                      }}>
+                      {'terms of service'}
+                    </Link>
+                  </>
+                </Checkbox>
               }
-              error={
-                serviceTermsAcceptedDirty && serviceTermsAcceptedError != ''
+              errorMsg={
+                serviceTermsAcceptedDirty && serviceTermsAcceptedError
                   ? serviceTermsAcceptedError
                   : undefined
               }

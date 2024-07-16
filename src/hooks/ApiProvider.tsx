@@ -22,8 +22,6 @@ export const ApiProvider = ({children}: {children: ReactNode}) => {
   const apiUrl = conf.apiUrl;
 
   const register = async (form: RegisterUserForm) => {
-    console.log('Registering user');
-
     const url = `${apiUrl}public/register`;
     const options: RequestInit = {
       method: 'POST',
@@ -32,7 +30,6 @@ export const ApiProvider = ({children}: {children: ReactNode}) => {
         'content-type': 'application/json',
       }),
     };
-    console.log(url)
     const res = await fetch(url, options);
     const resObject: ApiResponse<User> = await res.json();
     checkResponseException(res, resObject);

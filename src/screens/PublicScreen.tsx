@@ -6,6 +6,8 @@ import {ForgottenPasswordScreen} from './ForgottenPasswordScreen';
 import {ValidationScreen} from './ValidationScreen';
 import {PublicScreenNavList} from '../types/navProps';
 import {ResetPasswordScreen} from './ResetPasswordScreen';
+import {colors} from '../styleVars';
+import {Header} from '../components/ui/Button/Header/Header';
 
 const Stack = createNativeStackNavigator<PublicScreenNavList>();
 
@@ -13,21 +15,36 @@ export function PublicScreen() {
   return (
     <Stack.Navigator
       screenOptions={{
-        contentStyle: {backgroundColor: 'transparent'},
+        animation: 'fade',
+        contentStyle: {backgroundColor: colors.neutral[100]},
         headerShadowVisible: false,
+        header: props => <Header {...props} />,
       }}>
       <Stack.Screen
         options={{headerShown: false}}
         name="Login"
         component={LoginScreen}
       />
-      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen
+        name="Register"
+        options={{title: 'Sign up'}}
+        component={RegisterScreen}
+      />
       <Stack.Screen
         name="ForgottenPassword"
+        options={{title: 'Forgotten password'}}
         component={ForgottenPasswordScreen}
       />
-      <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
-      <Stack.Screen name="Validation" component={ValidationScreen} />
+      <Stack.Screen
+        name="ResetPassword"
+        options={{title: 'Reset password'}}
+        component={ResetPasswordScreen}
+      />
+      <Stack.Screen
+        name="Validation"
+        options={{title: 'Validate account'}}
+        component={ValidationScreen}
+      />
     </Stack.Navigator>
   );
 }

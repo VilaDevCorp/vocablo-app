@@ -9,28 +9,28 @@ export function Form({
   buttons?: React.ReactNode;
 }) {
   return (
-    <View style={style.mainBox}>
-      <ScrollView style={style.fieldsScrollView}>{fields}</ScrollView>
+    <ScrollView
+      keyboardShouldPersistTaps={'always'}
+      contentContainerStyle={style.mainBox}>
+      <View style={style.fieldsScrollView}>{fields}</View>
       {buttons && <View style={style.buttonsBox}>{buttons}</View>}
-    </View>
+    </ScrollView>
   );
 }
 
 const style = StyleSheet.create({
   mainBox: {
     display: 'flex',
-    flex:1,
+    flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
     gap: 16,
   },
   fieldsScrollView: {
-    display: 'flex',
     flexDirection: 'column',
-    gap: 16,
+    gap: 8,
   },
   buttonsBox: {
-    display: 'flex',
     flexDirection: 'column',
     gap: 16,
   },

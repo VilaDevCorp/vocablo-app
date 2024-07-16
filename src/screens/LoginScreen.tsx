@@ -1,13 +1,12 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import React, {useRef, useState} from 'react';
-import {Text, TextInput, View} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View} from 'react-native';
 import {PublicScreenNavList} from '../types/navProps';
 import {notEmptyValidator, useValidator} from '../hooks/useValidator';
 import {Input} from '../components/ui/Input/Input';
 import {Button} from '../components/ui/Button/Button';
 import Logo from '../../assets/logo.svg';
 import {Form} from '../components/ui/Form/Form';
-import {FormField} from '../components/ui/FormField/FormField';
 import {colors} from '../styleVars';
 import {Link} from '../components/ui/Link/Link';
 import {useMutation} from '@tanstack/react-query';
@@ -17,6 +16,8 @@ import {useToast} from '../hooks/useToast';
 import {ApiError, ErrorCode} from '../types/types';
 import StatusCode from 'status-code-enum';
 import {useError} from '../hooks/useError';
+import {Typography} from '../components/ui/Typography/Typography';
+import {FormField} from '../components/ui/FormField/FormField';
 
 export function LoginScreen() {
   const {navigate} = useNavigation<NavigationProp<PublicScreenNavList>>();
@@ -49,7 +50,7 @@ export function LoginScreen() {
     if (usernameValid && passwordValid) {
       await auth.authenticate(username, password);
     } else {
-      showToast('There are errors in the form');
+      showToast('There are errors in the form', 'alert', 'error');
     }
   };
 
@@ -71,7 +72,7 @@ export function LoginScreen() {
           e.statusCode === StatusCode.ClientErrorUnauthorized &&
           e.code === ErrorCode.INVALID_CREDENTIALS
         ) {
-          showToast('Wrong credentials');
+          showToast('Wrong credentials', 'alert', 'error');
           return;
         }
       }
@@ -85,20 +86,22 @@ export function LoginScreen() {
 
   return (
     <View style={{flex: 1}}>
-      <Logo width={'100%'} height={200} />
       <Form
         fields={
-          <>
+          <View style={{gap: 8}}>
+            <Logo width={'100%'} height={200} />
             <FormField
               input={
                 <Input
                   value={username}
                   setValue={setUsername}
+                  autoCapitalize="none"
                   onBlur={() => setDirtyUsername()}
+                  icon="user"
+                  placeholder="Username"
                 />
               }
-              label="Username"
-              error={
+              errorMsg={
                 usernameDirty && usernameError ? usernameMessage : undefined
               }
             />
@@ -108,34 +111,42 @@ export function LoginScreen() {
                   value={password}
                   setValue={setPassword}
                   onBlur={() => setDirtyPassword()}
+                  icon="lock"
                   type="password"
+                  placeholder="Password"
                 />
               }
-              label="Password"
-              error={
+              errorMsg={
                 passwordDirty && passwordError ? passwordMessage : undefined
               }
             />
             <Link onPress={() => navigate('ForgottenPassword')}>
               {'I have forgotten my password'}
             </Link>
-            <View style={{flexDirection: 'row', gap: 8, alignItems: 'center'}}>
-              <Text style={{color: colors.neutral[900]}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                gap: 8,
+                alignItems: 'center',
+              }}>
+              <Typography variant="hint">
                 {"Don't have an account yet?"}
-              </Text>
+              </Typography>
               <Button variant="ghost" onPress={() => navigate('Register')}>
-                {'Register'}
+                {'Sign up'}
               </Button>
             </View>
-          </>
+          </View>
         }
         buttons={
-          <Button
-            disabled={disabledLoginButton}
-            isLoading={isLoading}
-            onPress={() => onLogin()}>
-            {'Login'}
-          </Button>
+          <>
+            <Button
+              disabled={disabledLoginButton}
+              isLoading={isLoading}
+              onPress={() => onLogin()}>
+              {'Login'}
+            </Button>
+          </>
         }
       />
     </View>

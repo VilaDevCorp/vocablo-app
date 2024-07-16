@@ -1,26 +1,32 @@
-import React from 'react';
+import {cloneElement, ReactElement} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {colors} from '../../../styleVars';
+import {Typography} from '../Typography/Typography';
 
 export function FormField({
   input,
-  label,
-  error,
+  errorMsg,
 }: {
-  input: React.ReactNode;
-  label?: string;
-  error?: string;
+  input: ReactElement;
+  errorMsg?: string;
 }) {
   return (
-    <View style={style.mainBox}>
-      {label && <Text style={style.label}>{label}</Text>}
-      {input}
-      {error && <Text style={{color: colors.error[500]}}>{error}</Text>}
+    <View style={style.container}>
+      {cloneElement(input, {
+        hasError: errorMsg !== '' && errorMsg !== undefined,
+      })}
+      <Typography style={style.errorMsg}>{errorMsg}</Typography>
     </View>
   );
 }
 
 const style = StyleSheet.create({
-  mainBox: {display: 'flex', flexDirection: 'column', marginBottom: 16, gap: 8},
-  label: {color: 'black', fontSize: 16, fontWeight: 'bold'},
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 4,
+  },
+  errorMsg: {
+    color: colors.error[700],
+  },
 });

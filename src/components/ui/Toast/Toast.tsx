@@ -28,7 +28,7 @@ export function Toast() {
   useEffect(() => {
     if (show) {
       Animated.timing(toastPosition, {
-        toValue: -56,
+        toValue: -36,
         duration: 300,
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
@@ -48,9 +48,9 @@ export function Toast() {
       case 'filled':
         return colors[color][500];
       case 'outlined':
-        return colors.neutral[0];
+        return colors.neutral[100];
       case 'transparent':
-        return colors.neutral[0];
+        return colors.neutral[100];
     }
   };
 
@@ -66,24 +66,26 @@ export function Toast() {
       backgroundColor: getBgColor(),
       borderWidth: 2,
       borderColor:
-        mode === 'transparent' ? colors.neutral[0] : colors[color][500],
-      padding: 16,
+        mode === 'transparent' ? colors.neutral[100] : colors[color][500],
+      paddingVertical: 8,
+      paddingHorizontal: 24,
       width: '100%',
-      minHeight: 64,
-      borderRadius: 8,
+      minHeight: 50,
+      borderRadius: 12,
       display: 'flex',
       flexGrow: 1,
       flexDirection: 'row',
-      gap: 10,
+      gap: 8,
       alignItems: 'center',
     },
     text: {
       fontSize: 16,
       flexWrap: 'wrap',
+      lineHeight: 24,
+      fontFamily: 'MerriweatherSans-Regular',
       display: 'flex',
       flexShrink: 1,
-      color: mode === 'filled' ? colors.neutral[0] : colors[color][500],
-      fontWeight: '500',
+      color: mode === 'filled' ? colors.neutral[100] : colors[color][500],
     },
   });
 
@@ -95,7 +97,7 @@ export function Toast() {
             <Icon
               type={icon}
               size={24}
-              color={mode === 'filled' ? colors.neutral[0] : colors[color][500]}
+              color={mode === 'filled' ? colors.neutral[100] : colors[color][500]}
             />
           )}
           <Text style={style.text}>{message}</Text>

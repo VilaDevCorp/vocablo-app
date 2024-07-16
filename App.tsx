@@ -5,17 +5,20 @@ import {ToastProvider} from './src/hooks/ToastProvider';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {ApiProvider} from './src/hooks/ApiProvider';
 import {AuthProvider} from './src/hooks/AuthProvider';
+import {ErrorProvider} from './src/hooks/ErrorProvider';
 
 const App = () => {
   return (
     <ToastProvider>
-      <ReactQueryProvider>
-        <AuthProvider>
-          <ApiProvider>
-            <Body />
-          </ApiProvider>
-        </AuthProvider>
-      </ReactQueryProvider>
+      <ErrorProvider>
+        <ReactQueryProvider>
+          <AuthProvider>
+            <ApiProvider>
+              <Body />
+            </ApiProvider>
+          </AuthProvider>
+        </ReactQueryProvider>
+      </ErrorProvider>
     </ToastProvider>
   );
 };
