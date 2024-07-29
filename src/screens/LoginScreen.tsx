@@ -98,7 +98,7 @@ export function LoginScreen() {
                   autoCapitalize="none"
                   onBlur={() => setDirtyUsername()}
                   icon="user"
-                  placeholder="Username"
+                  label="Username"
                 />
               }
               errorMsg={
@@ -113,7 +113,7 @@ export function LoginScreen() {
                   onBlur={() => setDirtyPassword()}
                   icon="lock"
                   type="password"
-                  placeholder="Password"
+                  label="Password"
                 />
               }
               errorMsg={

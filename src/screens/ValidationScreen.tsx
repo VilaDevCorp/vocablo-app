@@ -69,7 +69,10 @@ export function ValidationScreen({route}: Props) {
       },
       onError: e => {
         if (e instanceof ApiError) {
-          console.log(e);
+          if (e.statusCode === StatusCode.ClientErrorNotFound) {
+            showToast('There is no code created', 'alert', 'error');
+            return;
+          }
           if (e.statusCode === StatusCode.ClientErrorConflict) {
             showToast(
               'The code has already been used. Send another.',
@@ -94,7 +97,7 @@ export function ValidationScreen({route}: Props) {
             return;
           }
         }
-        showToast('An internal error occurred', 'alert', 'error');
+        setError(e);
       },
     });
 

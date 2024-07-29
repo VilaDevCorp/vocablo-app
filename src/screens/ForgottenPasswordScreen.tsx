@@ -64,7 +64,7 @@ export function ForgottenPasswordScreen() {
                   onBlur={() => setDirtyUsername()}
                   icon="user"
                   autoCapitalize="none"
-                  placeholder="Username"
+                  label="Username"
                 />
               }
               errorMsg={

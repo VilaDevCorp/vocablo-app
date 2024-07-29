@@ -160,7 +160,7 @@ export function RegisterScreen() {
                   value={username}
                   setValue={setUsername}
                   autoCapitalize="none"
-                  placeholder="Username"
+                  label="Username"
                   icon="user"
                   onBlur={() => setDirtyUsername()}
                 />
@@ -175,7 +175,7 @@ export function RegisterScreen() {
                   value={email}
                   icon="mail"
                   autoCapitalize="none"
-                  placeholder="Email"
+                  label="Email"
                   setValue={setEmail}
                   onBlur={() => setDirtyEmail()}
                 />
@@ -191,7 +191,7 @@ export function RegisterScreen() {
                   onBlur={() => setDirtyPassword()}
                   type="password"
                   icon="lock"
-                  placeholder="Password"
+                  label="Password"
                 />
               }
               errorMsg={
@@ -204,7 +204,7 @@ export function RegisterScreen() {
                   value={repeatPassword}
                   setValue={setRepeatPassword}
                   autoCapitalize="none"
-                  placeholder="Repeat Password"
+                  label="Repeat Password"
                   icon="lock"
                   type="password"
                 />

@@ -20,6 +20,7 @@ import {PublicScreenNavList} from '../types/navProps';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {CodeInput} from '../components/ui/CodeInput/CodeInput';
 import {InfoMessage} from '../components/atoms/InfoMessage';
+import {useError} from '../hooks/useError';
 
 type Props = NativeStackScreenProps<PublicScreenNavList, 'ResetPassword'>;
 
@@ -29,6 +30,8 @@ export function ResetPasswordScreen({route}: Props) {
   const {resetPassword} = useApi();
   const [password, setPassword] = useState<string>('');
   const [repeatPassword, setRepeatPassword] = useState<string>('');
+
+  const {setError} = useError(navigate);
 
   const [
     passwordDirty,
@@ -89,6 +92,10 @@ export function ResetPasswordScreen({route}: Props) {
     },
     onError: e => {
       if (e instanceof ApiError) {
+        if (e.statusCode === StatusCode.ClientErrorNotFound) {
+          showToast('There is no code created', 'alert', 'error');
+          return;
+        }
         if (e.statusCode === StatusCode.ClientErrorConflict) {
           showToast('The code has already been used', 'alert', 'error');
           return;
@@ -105,7 +112,7 @@ export function ResetPasswordScreen({route}: Props) {
           return;
         }
       }
-      showToast('An internal error occurred', 'alert', 'error');
+      setError(e);
     },
   });
 
@@ -142,7 +149,7 @@ export function ResetPasswordScreen({route}: Props) {
                   setValue={setPassword}
                   icon="lock"
                   type="password"
-                  placeholder="New password"
+                  label="New password"
                   onBlur={() => setDirtyPassword()}
                 />
               }
@@ -157,7 +164,7 @@ export function ResetPasswordScreen({route}: Props) {
                   icon="lock"
                   setValue={setRepeatPassword}
                   type="password"
-                  placeholder="Repeat new password"
+                  label="Repeat new password"
                 />
               }
               errorMsg={passwordMatchDirty ? passwordMatchError : undefined}

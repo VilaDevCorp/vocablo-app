@@ -1,12 +1,14 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, Text, TextInput, TextInputProps, View} from 'react-native';
-import {Icon, SystemIcons} from '../Icon/Icon';
-import {colors} from '../../../styleVars';
-import {Typography} from '../Typography/Typography';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
+import { Icon, SystemIcons } from '../Icon/Icon';
+import { colors } from '../../../styleVars';
+import { Typography } from '../Typography/Typography';
 
 type InputProps = TextInputProps & {
   setValue: (value: string) => void;
   type?: 'text' | 'password';
+  label?: string
+  placeholderIcon?: SystemIcons;
   icon?: SystemIcons;
   disabled?: boolean;
   hasError?: boolean;
@@ -15,51 +17,63 @@ type InputProps = TextInputProps & {
 export const Input = (props: InputProps) => {
   const {
     type = 'text',
+    label,
     setValue,
     disabled,
     icon,
+    placeholderIcon,
     hasError,
     ...nativeInputProps
   } = props;
   const [isFocus, setIsFocus] = useState(false);
 
   return (
-    <View style={style.inputAndErrorBox}>
-      <View
-        style={[
-          style.inputBox,
-          isFocus && !disabled && style.inputBoxFocus,
-          hasError && style.inputBoxError,
-          disabled && style.inputBoxDisabled,
-        ]}>
-        {icon && <Icon type={icon} color={colors.neutral[400]} size={24} />}
-        <TextInput
-          {...nativeInputProps}
-          onFocus={e => {
-            if (disabled) return;
-            setIsFocus(true);
-            nativeInputProps.onFocus && nativeInputProps.onFocus(e);
-          }}
-          onBlur={e => {
-            setIsFocus(false);
-            nativeInputProps.onBlur && nativeInputProps.onBlur(e);
-          }}
-          onChangeText={e => setValue(e)}
+    <View style={style.labelAndInputBox}>
+      {label && <View style={{ flexDirection: 'row', gap: 4 }}>
+        {icon && <Icon type={icon} color={colors.neutral[700]} size={24} />}
+        <Typography variant="label">{props.label}</Typography></View>
+      }
+      <View style={style.inputAndErrorBox}>
+        <View
           style={[
-            style.input,
-            isFocus && !disabled && {color: colors.neutral[900]},
-            disabled && {color: colors.neutral[600]},
-          ]}
-          secureTextEntry={type === 'password'}
-          placeholderTextColor={colors.neutral[400]}
-          editable={!disabled}
-        />
+            style.inputBox,
+            isFocus && !disabled && style.inputBoxFocus,
+            hasError && style.inputBoxError,
+            disabled && style.inputBoxDisabled,
+          ]}>
+          {placeholderIcon && <Icon type={placeholderIcon} color={colors.neutral[400]} size={24} />}
+          <TextInput
+            {...nativeInputProps}
+            onFocus={e => {
+              if (disabled) return;
+              setIsFocus(true);
+              nativeInputProps.onFocus && nativeInputProps.onFocus(e);
+            }}
+            onBlur={e => {
+              setIsFocus(false);
+              nativeInputProps.onBlur && nativeInputProps.onBlur(e);
+            }}
+            onChangeText={e => setValue(e)}
+            style={[
+              style.input,
+              isFocus && !disabled && { color: colors.neutral[900] },
+              disabled && { color: colors.neutral[600] },
+            ]}
+            secureTextEntry={type === 'password'}
+            placeholderTextColor={colors.neutral[400]}
+            editable={!disabled}
+          />
+        </View>
       </View>
     </View>
+
   );
 };
 
 const style = StyleSheet.create({
+  labelAndInputBox: {
+    gap: 8,
+  },
   inputAndErrorBox: {
     gap: 4,
   },
