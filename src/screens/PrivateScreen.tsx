@@ -1,16 +1,19 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import {useAuth} from '../hooks/useAuth';
-import { Button } from '../components/ui/Button/Button';
+import { useAuth } from '../hooks/useAuth';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { HomeScreen } from './HomeScreen';
+
+const Tab = createBottomTabNavigator();
 
 export function PrivateScreen() {
-  const {user, logout} = useAuth();
+  const { user, logout } = useAuth();
+
 
   return (
-    <View>
-      <Text style={{color: 'black'}}>WELCOME</Text>
-      <Text style={{color: 'black'}}>{user?.username}</Text>
-      <Button onPress={logout}>Logout</Button>
-    </View>
+    <>
+    <Tab.Navigator sceneContainerStyle={{ padding: 16 }}>
+      <Tab.Screen name="Home" component={HomeScreen} />
+    </Tab.Navigator>
+    </>
   );
 }

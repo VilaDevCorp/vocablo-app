@@ -1,3 +1,9 @@
+export type RootStackParamList = {
+  PublicScreen: undefined;
+  PrivateScreen: undefined;
+  AddWordModal: undefined;
+};
+
 export type PublicScreenNavList = {
   Register: undefined;
   Login: undefined;

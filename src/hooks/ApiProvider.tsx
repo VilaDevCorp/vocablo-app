@@ -1,8 +1,8 @@
-import {createContext, ReactNode} from 'react';
-import {RegisterUserForm, User} from '../types/entities';
-import {ApiResponse} from '../types/types';
-import {conf} from '../conf';
-import {checkResponseException} from '../utils/utilFunctions';
+import { createContext, ReactNode } from 'react';
+import { RegisterUserForm, User } from '../types/entities';
+import { ApiResponse } from '../types/types';
+import { conf } from '../conf';
+import { checkResponseException } from '../utils/utilFunctions';
 
 interface ApiContext {
   register: (user: RegisterUserForm) => void;
@@ -18,7 +18,7 @@ interface ApiContext {
 
 export const ApiContext = createContext<ApiContext>({} as ApiContext);
 
-export const ApiProvider = ({children}: {children: ReactNode}) => {
+export const ApiProvider = ({ children }: { children: ReactNode }) => {
   const apiUrl = conf.apiUrl;
 
   const register = async (form: RegisterUserForm) => {
