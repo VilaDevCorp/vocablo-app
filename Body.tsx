@@ -8,6 +8,7 @@ import { PrivateScreen } from './src/screens/PrivateScreen';
 import { colors } from './src/styleVars';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RootStackParamList } from './src/types/navProps';
+import { AddWordModal } from './src/components/organisms/AddWordModal/AddWordModal';
 import { ConfirmationModal } from './src/components/organisms/ConfirmationModal';
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -27,6 +28,9 @@ export const Body = () => {
             {csrf ?
               <>
                 <RootStack.Screen name="PrivateScreen" component={PrivateScreen} />
+                <RootStack.Group screenOptions={{ presentation: 'modal' }}>
+                  <RootStack.Screen name="AddWordModal" component={AddWordModal} />
+                </RootStack.Group>
               </>
               : <RootStack.Screen name="PublicScreen" component={PublicScreen} />
             }

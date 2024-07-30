@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeScreen } from './HomeScreen';
+import { BlankScreen } from './BlankScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,6 +14,8 @@ export function PrivateScreen() {
     <>
     <Tab.Navigator sceneContainerStyle={{ padding: 16 }}>
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Add word" component={BlankScreen} listeners={({ navigation }) =>
+        navigation.navigate("AddWordModal")} />
     </Tab.Navigator>
     </>
   );
