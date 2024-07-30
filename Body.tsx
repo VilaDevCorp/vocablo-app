@@ -6,6 +6,7 @@ import {Toast} from './src/components/ui/Toast/Toast';
 import {useAuth} from './src/hooks/useAuth';
 import {PrivateScreen} from './src/screens/PrivateScreen';
 import {colors} from './src/styleVars';
+import { ConfirmationModal } from './src/components/organisms/ConfirmationModal';
 
 export const Body = () => {
   const {csrf} = useAuth();
@@ -18,6 +19,7 @@ export const Body = () => {
         </NavigationContainer>
       </View>
       <Toast />
+      <ConfirmationModal />
     </SafeAreaView>
   );
 };
