@@ -39,7 +39,7 @@ export function Button(props: ButtonProps) {
       case 'outlined':
         return pressed ? colors.neutral[100] : 'transparent';
       case 'ghost':
-        return pressed ? colors.neutral[100] : 'transparent';
+        return pressed ? 'transparent' : 'transparent';
     }
   };
 

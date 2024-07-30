@@ -36,7 +36,7 @@ export function IconButton(props: IconButtonProps) {
       case 'outlined':
         return pressed ? colors.neutral[100] : 'transparent';
       case 'ghost':
-        return pressed ? colors.neutral[100] : 'transparent';
+        return pressed ? 'transparent' : 'transparent';
     }
   };
 
