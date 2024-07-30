@@ -12,6 +12,7 @@ type InputProps = TextInputProps & {
   icon?: SystemIcons;
   disabled?: boolean;
   hasError?: boolean;
+  isTextArea?: boolean;
 };
 
 export const Input = (props: InputProps) => {
@@ -23,6 +24,7 @@ export const Input = (props: InputProps) => {
     icon,
     placeholderIcon,
     hasError,
+    isTextArea,
     ...nativeInputProps
   } = props;
   const [isFocus, setIsFocus] = useState(false);
@@ -40,9 +42,11 @@ export const Input = (props: InputProps) => {
             isFocus && !disabled && style.inputBoxFocus,
             hasError && style.inputBoxError,
             disabled && style.inputBoxDisabled,
+            isTextArea && { minHeight: 100, height: 100, alignItems: 'flex-start' },
           ]}>
           {placeholderIcon && <Icon type={placeholderIcon} color={colors.neutral[400]} size={24} />}
           <TextInput
+            multiline={isTextArea}
             {...nativeInputProps}
             onFocus={e => {
               if (disabled) return;
@@ -105,7 +109,6 @@ const style = StyleSheet.create({
     color: colors.neutral[700],
     fontSize: 16,
     flex: 1,
-    height: 50,
     fontFamily: 'MerriweatherSans-Regular',
   },
 });
