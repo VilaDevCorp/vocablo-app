@@ -4,11 +4,10 @@ export interface SelectOption {
 }
 
 export interface Page<T> {
-    page: number;
-    totalPages: number;
-    data: T[];
+    pageNumber: number;
+    hasNext: boolean;
+    content: T[];
 }
-
 export interface ApiResponse<T> {
     data: T;
     errorMessage: string;
