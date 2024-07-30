@@ -1,5 +1,5 @@
 import React from 'react';
-import {colors} from '../../../styleVars';
+import { colors } from '../../../styleVars';
 import Add from './icons/add.svg';
 import Check from './icons/check.svg';
 import User from './icons/user.svg';
@@ -9,6 +9,10 @@ import ArrowLeft from './icons/arrow-left.svg';
 import Info from './icons/info.svg';
 import Repeat from './icons/repeat.svg';
 import Alert from './icons/alert.svg';
+import Close from './icons/close.svg';
+import Search from './icons/search.svg';
+import ArrowRight from './icons/arrow-right.svg';
+import Trash from './icons/trash.svg';
 
 export type IconProps = {
   type: SystemIcons;
@@ -25,10 +29,14 @@ export type SystemIcons =
   | 'arrow-left'
   | 'info'
   | 'repeat'
-  | 'alert';
+  | 'alert'
+  | 'close'
+  | 'search'
+  | 'arrow-right'
+  | 'trash';
 
 export const Icon = (props: IconProps) => {
-  const {type, size = 16, color = colors.primary[500]} = props;
+  const { type, size = 16, color = colors.primary[500] } = props;
   return getIconType(type, size, color);
 };
 
@@ -56,6 +64,14 @@ function getIconType(
       return <Repeat width={size} height={size} color={color} />;
     case 'alert':
       return <Alert width={size} height={size} color={color} />;
+    case 'close':
+      return <Close width={size} height={size} color={color} />;
+    case 'search':
+      return <Search width={size} height={size} color={color} />;
+    case 'arrow-right':
+      return <ArrowRight width={size} height={size} color={color} />;
+    case 'trash':
+      return <Trash width={size} height={size} color={color} />;
     default:
       return <></>;
   }
