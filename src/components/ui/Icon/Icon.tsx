@@ -13,6 +13,8 @@ import Close from './icons/close.svg';
 import Search from './icons/search.svg';
 import ArrowRight from './icons/arrow-right.svg';
 import Trash from './icons/trash.svg';
+import Home from './icons/home.svg';
+import Word from './icons/word.svg';
 
 export type IconProps = {
   type: SystemIcons;
@@ -33,7 +35,9 @@ export type SystemIcons =
   | 'close'
   | 'search'
   | 'arrow-right'
-  | 'trash';
+  | 'trash'
+  | 'home'
+  | 'word';
 
 export const Icon = (props: IconProps) => {
   const { type, size = 16, color = colors.primary[500] } = props;
@@ -72,6 +76,10 @@ function getIconType(
       return <ArrowRight width={size} height={size} color={color} />;
     case 'trash':
       return <Trash width={size} height={size} color={color} />;
+    case 'home':
+      return <Home width={size} height={size} color={color} />;
+    case 'word':
+      return <Word width={size} height={size} color={color} />;
     default:
       return <></>;
   }
