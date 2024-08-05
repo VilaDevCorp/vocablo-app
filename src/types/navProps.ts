@@ -22,3 +22,8 @@ export type AddWordModalNavList = {
   SearchWord: undefined;
   SaveWord: undefined;
 };
+
+export type MyWordsStackNavList = {
+  MyWordsList: undefined;
+  WordDetails: { userWordId: string };
+};

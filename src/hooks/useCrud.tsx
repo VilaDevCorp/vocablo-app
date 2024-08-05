@@ -12,7 +12,7 @@ interface CrudOperations<T> {
         pageSize: number | null,
         filters: SearchFilters
     ) => Promise<Page<T>>;
-    remove: (id: string) => void;
+    remove: (id: string) => Promise<void>;
 }
 
 export type SearchFilters = { [key: string]: string | boolean | string[] };

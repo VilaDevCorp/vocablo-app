@@ -36,6 +36,7 @@ export function PrivateScreen() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="AddWord" component={BlankScreen} listeners={({ navigation }) =>
           navigation.navigate("AddWordModal")} />
+        <Tab.Screen name="MyWords" component={MyWordsScreen} />
       </Tab.Navigator>
     </>
   );
