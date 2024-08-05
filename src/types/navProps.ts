@@ -4,6 +4,12 @@ export type RootStackParamList = {
   AddWordModal: undefined;
 };
 
+export type PrivateScreenNavList = {
+  Home: undefined;
+  MyWords: undefined;
+  AddWord: undefined;
+};
+
 export type PublicScreenNavList = {
   Register: undefined;
   Login: undefined;
