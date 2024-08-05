@@ -1,5 +1,5 @@
 import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MyWordsStackNavList } from '../types/navProps';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCrud } from '../hooks/useCrud';
@@ -10,6 +10,7 @@ import { Button } from '../components/ui/Button/Button';
 import { colors } from '../styleVars';
 import { useConfirm } from '../hooks/useConfirm';
 import { Icon } from '../components/ui/Icon/Icon';
+import { EditWordModal } from '../components/organisms/EditWordModal';
 
 export function WordDetailsScreen({ }: {}) {
 
@@ -19,10 +20,12 @@ export function WordDetailsScreen({ }: {}) {
 
     const { get: getUserWord, remove: removeUserWord } = useCrud<UserWord>("userword");
 
+    const [editModalVisible, setEditModalVisible] = useState<boolean>(false)
+
     const { setOptions } = useNavigation<NavigationProp<MyWordsStackNavList>>();
 
     const { data: userWord, isLoading } = useQuery({
-        queryKey: ['userword', userWordId],
+        queryKey: ['userwordDetails', userWordId],
         queryFn: () => {
             return getUserWord(userWordId!);
         },
@@ -68,9 +71,10 @@ export function WordDetailsScreen({ }: {}) {
                 ))}
             </ScrollView>
             <View style={{}}>
-                <Button onPress={() => { }} variant='solid'>Edit</Button>
+                <Button onPress={() => { setEditModalVisible(true) }} variant='solid'>Edit</Button>
                 <Button onPress={() => { showConfirmationModal("Do you really want to delete this word?", () => deleteUserWord(userWord.id), <Icon type='alert' color={colors.error[500]} size={64} />) }} disabled={disabledButtons} variant='ghost' fontColor={colors.error[500]}>Delete</Button>
             </View>
+            {editModalVisible && <EditWordModal word={userWord} onClose={() => setEditModalVisible(false)} />}
         </>
     )
 }

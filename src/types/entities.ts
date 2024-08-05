@@ -40,6 +40,11 @@ export interface CreateUserWordForm {
     term: string;
     definitions: Definition[];
 }
+export interface UpdateUserWordForm {
+    id: string;
+    term: string;
+    definitions: Definition[];
+}
 
 export interface WordSearchForm extends SearchFilters {
     term: string;

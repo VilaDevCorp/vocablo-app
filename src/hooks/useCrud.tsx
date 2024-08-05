@@ -5,7 +5,7 @@ import { useAuth } from './useAuth';
 
 interface CrudOperations<T> {
     create: (form: unknown) => Promise<T>;
-    update: (id: string, form: unknown) => Promise<T>;
+    update: (form: unknown) => Promise<T>;
     get: (id: string) => Promise<T>;
     search: (
         page: number,
@@ -37,10 +37,10 @@ export function useCrud<T>(entity: string): CrudOperations<T> {
         checkResponseException(res, resObject);
         return resObject.data;
     };
-    const update = async (id: string, form: unknown): Promise<T> => {
-        const url = `${apiUrl}${entity}/${id}`;
+    const update = async (form: unknown): Promise<T> => {
+        const url = `${apiUrl}${entity}`;
         const options: RequestInit = {
-            method: 'PATCH',
+            method: 'PUT',
             body: JSON.stringify(form),
             credentials: 'include',
             headers: new Headers({

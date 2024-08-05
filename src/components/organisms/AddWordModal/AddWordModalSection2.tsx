@@ -49,8 +49,22 @@ export function AddWordModalSection2({ }: {}) {
         navigation.getParent()?.navigate('Home')
     }
 
+    const setDefinition = (definition: Definition, definitionIndex: number) => {
+        setForm({
+            ...form, definitions: form.definitions.map((def, i) => {
+                if (i === definitionIndex) {
+                    return definition
+                }
+                return def
+            })
+        })
+    }
 
-
+    const removeDefinition = (definitionIndex: number) => {
+        setForm({
+            ...form, definitions: form.definitions.filter((_, i) => i !== definitionIndex)
+        })
+    }
 
     return (
         <View style={style.mainContainer}>
@@ -60,7 +74,9 @@ export function AddWordModalSection2({ }: {}) {
                     {"Add new definition"}
                 </Button>
                 {form.definitions.map((definition, index) => (
-                    <DefinitionForm key={index} definition={definition} definitionIndex={index} />
+                    <DefinitionForm key={index} definition={definition} definitionIndex={index}
+                        setDefinition={(definition: Definition) => setDefinition(definition, index)}
+                        removeDefinition={() => removeDefinition(index)} />
                 ))}
             </ScrollView>
             <View style={style.buttonsBox}>

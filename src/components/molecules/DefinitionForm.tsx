@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Definition } from '../../types/entities';
+import React, { Dispatch, SetStateAction, useContext } from 'react';
+import { CreateUserWordForm, Definition, UpdateUserWordForm } from '../../types/entities';
 import { StyleSheet, Text, View } from 'react-native';
 import { Input } from '../ui/Input/Input';
 import { IconButton } from '../ui/Button/IconButton';
@@ -7,42 +7,25 @@ import { colors } from '../../styleVars';
 import { AddWordContext } from '../organisms/AddWordModal/AddWordModal';
 import { Typography } from '../ui/Typography/Typography';
 
-export function DefinitionForm({ definition, definitionIndex }:
-    { definition: Definition, definitionIndex: number }) {
-
-    const { setForm } = useContext(AddWordContext)
+export function DefinitionForm({ definition, definitionIndex, setDefinition,
+    removeDefinition
+}:
+    {
+        definition: Definition, definitionIndex: number,
+        setDefinition: (definition: Definition) => void
+        removeDefinition: () => void
+    }) {
 
     const onDelete = () => {
-        setForm((form) => {
-            return { ...form, definitions: form.definitions.filter((_, i) => i !== definitionIndex) }
-        })
+        removeDefinition()
     }
 
     const onDefinitionChange = (value: string) => {
-        setForm((form) => {
-            return {
-                ...form, definitions: form.definitions.map((def, i) => {
-                    if (i === definitionIndex) {
-                        return { ...def, definition: value }
-                    }
-                    return def
-                })
-            }
-        })
+        setDefinition({ ...definition, definition: value })
     }
 
     const onExampleChange = (value: string) => {
-        setForm((form) => {
-            return {
-                ...form, definitions: form.definitions.map((def, i) => {
-                    if (i === definitionIndex) {
-                        return { ...def, example: value }
-                    }
-                    return def
-                })
-            }
-        }
-        )
+        setDefinition({ ...definition, example: value })
     }
 
     return (
