@@ -5,6 +5,7 @@ import { Input } from '../ui/Input/Input';
 import { IconButton } from '../ui/Button/IconButton';
 import { colors } from '../../styleVars';
 import { AddWordContext } from '../organisms/AddWordModal/AddWordModal';
+import { Typography } from '../ui/Typography/Typography';
 
 export function DefinitionForm({ definition, definitionIndex }:
     { definition: Definition, definitionIndex: number }) {
@@ -47,7 +48,7 @@ export function DefinitionForm({ definition, definitionIndex }:
     return (
         <View style={style.mainContainer}>
             <View style={style.numberAndButtonBox}>
-                <Text style={style.definitionIndex}>{definitionIndex+1}</Text>
+                <Typography variant='definitionIndex'>{definitionIndex + 1}</Typography>
                 <IconButton icon='trash' variant='ghost' fontColor={colors.error[500]}
                     onPress={() => onDelete()} />
             </View>

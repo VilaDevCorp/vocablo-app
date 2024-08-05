@@ -19,7 +19,7 @@ export function DefinitionCard({ definition, isSelected, onSelect }: { definitio
     return (
         <Pressable style={style.mainContainer} onPress={() => onSelect()}>
             <Typography style={{ color: isSelected ? colors.neutral[900] : colors.neutral[700] }} variant='body'>{definition.definition}</Typography>
-            {definition.example && <Typography variant='body' style={{ color: isSelected ? colors.neutral[700] : colors.neutral[500], fontFamily: 'MerriweatherSans-Italic' }}>
+            {definition.example && <Typography variant='example' style={{ color: isSelected ? colors.neutral[700] : colors.neutral[500] }}>
                 {definition.example}
             </Typography>}
         </Pressable>

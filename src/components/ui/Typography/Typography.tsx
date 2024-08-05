@@ -1,8 +1,9 @@
-import React, {ReactNode} from 'react';
-import {StyleProp, Text, TextStyle} from 'react-native';
-import {colors} from '../../../styleVars';
+import React, { ReactNode } from 'react';
+import { StyleProp, Text, TextStyle } from 'react-native';
+import { colors } from '../../../styleVars';
 
-export type TypographyVariant = 'h1' | 'h2' | 'h3' | 'button' | 'body' | 'hint' | 'label';
+export type TypographyVariant = 'h1' | 'h2' | 'h3' | 'button' | 'body' | 'hint'
+  | 'label' | 'example' | 'definitionIndex';
 
 const getFontSize = (variant: TypographyVariant) => {
   switch (variant) {
@@ -27,6 +28,8 @@ const getFontFamily = (variant: TypographyVariant) => {
       return 'MerriweatherSans-Bold';
     case 'h2':
       return 'MerriweatherSans-Bold';
+    case 'example':
+      return 'MerriweatherSans-Italic';
     default:
       return 'MerriweatherSans-Regular';
   }
@@ -39,6 +42,8 @@ const getColor = (variant: TypographyVariant) => {
     case 'hint':
       return colors.neutral[500];
     case 'label':
+      return colors.neutral[700];
+    case 'example':
       return colors.neutral[700];
     default:
       return colors.neutral[900];
@@ -54,6 +59,20 @@ const getLineHeight = (variant: TypographyVariant) => {
   }
 };
 
+const definitionIndexStyle: StyleProp<TextStyle> = {
+  width: 28,
+  height: 28,
+  borderRadius: 35 / 2,
+  backgroundColor: colors.primary[500],
+  color: colors.neutral[100],
+  fontSize: 24,
+  textAlign: 'center',
+  verticalAlign: 'top',
+  textAlignVertical: 'top',
+  fontFamily: 'MerriweatherSans-Regular',
+  lineHeight: 30
+}
+
 export function Typography({
   variant = 'body',
   style,
@@ -66,12 +85,13 @@ export function Typography({
   return (
     <Text
       style={[
-        {
-          color: getColor(variant),
-          fontFamily: getFontFamily(variant),
-          fontSize: getFontSize(variant),
-          lineHeight: getLineHeight(variant),
-        },
+        variant === 'definitionIndex' ? definitionIndexStyle :
+          {
+            color: getColor(variant),
+            fontFamily: getFontFamily(variant),
+            fontSize: getFontSize(variant),
+            lineHeight: getLineHeight(variant),
+          },
         style,
       ]}>
       {children}
