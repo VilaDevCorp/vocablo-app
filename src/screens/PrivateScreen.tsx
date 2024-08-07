@@ -7,6 +7,7 @@ import { PrivateScreenNavList } from '../types/navProps';
 import { Icon } from '../components/ui/Icon/Icon';
 import { colors } from '../styleVars';
 import { MyWordsScreen } from './MyWordsScreen';
+import { QuizScreen } from './QuizScreen';
 import { BottomTabsHeader } from '../components/molecules/BottomTabsHeader';
 
 const Tab = createBottomTabNavigator<PrivateScreenNavList>();
@@ -31,15 +32,19 @@ export function PrivateScreen() {
               return <Icon type="add" size={size} color={iconColor} />;
             case "MyWords":
               return <Icon type="word" size={size} color={iconColor} />;
+            case "Quiz":
+              return <Icon type="circle-check" size={size} color={iconColor} />;
           }
         }
       })} sceneContainerStyle={{ padding: 16, paddingBottom: 0, marginBottom: 12 }}>
         <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Tab.Screen name="AddWord" component={BlankScreen} options={{ headerShown: false }}
           listeners={({ navigation }) =>
-          navigation.navigate("AddWordModal")} />
-        <Tab.Screen name="MyWords" component={MyWordsScreen} />
-      </Tab.Navigator>
+            navigation.navigate("AddWordModal")} />
+        <Tab.Screen name="MyWords" component={MyWordsScreen}
+          options={{ headerShown: false }} />
+        <Tab.Screen name="Quiz" component={QuizScreen} options={{title:'Quiz'}} />
+      </Tab.Navigator >
     </>
   );
 }

@@ -8,6 +8,7 @@ export type PrivateScreenNavList = {
   Home: undefined;
   MyWords: undefined;
   AddWord: undefined;
+  Quiz: undefined;
 };
 
 export type PublicScreenNavList = {
