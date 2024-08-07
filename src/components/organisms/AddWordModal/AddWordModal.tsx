@@ -38,12 +38,12 @@ export function AddWordModal() {
         <AddWordContext.Provider value={{ form: addWordForm, setForm: setAddWordForm }}>
             <Stack.Navigator screenOptions={{
                 animation: 'ios',
-                header: (props) => <Header {...props} isModal customGoBack={secureGoBack} />,
-                
-                contentStyle: { padding: 16}
+                header: (props) => <Header containerStyle={{ margin:16, marginBottom:0}}
+                    {...props} isModal customGoBack={secureGoBack} />,
+                contentStyle: { padding: 16 }
             }}>
-                <Stack.Screen name='SearchWord' component={AddWordModalSection1} />
-                <Stack.Screen name='SaveWord' component={AddWordModalSection2} />
+                <Stack.Screen name='SearchWord' options={{ title: 'Add word' }} component={AddWordModalSection1} />
+                <Stack.Screen name='SaveWord' options={{ title: 'Add word' }} component={AddWordModalSection2} />
             </Stack.Navigator>
         </AddWordContext.Provider>
 

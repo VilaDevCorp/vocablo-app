@@ -14,6 +14,7 @@ import { AddWordModalNavList } from '../../../types/navProps';
 import { useConfirm } from '../../../hooks/useConfirm';
 import { Icon } from '../../ui/Icon/Icon';
 import { AddWordContext } from './AddWordModal';
+import { ScreenLayout } from '../ScreenLayout';
 
 export function AddWordModalSection1({ }: {}) {
     const [searchTerm, setSearchTerm] = useState<string>('')
@@ -91,31 +92,45 @@ export function AddWordModalSection1({ }: {}) {
     }
 
     return (
-        <View style={style.mainContainer}>
-            <Input value={searchTerm} setValue={setSearchTerm} placeholder='Search word' placeholderIcon='search' />
+        <ScreenLayout isScrollable={false} buttons={
+            <Button iconRight='arrow-right' onPress={() => onNextScreen()} >
+                {'Next'}
+            </Button>}
+            containerStyle={style.mainBox}
+            isStickyButtons
+        >
+            <Input value={searchTerm} setValue={setSearchTerm} placeholder='Search word'
+                placeholderIcon='search' />
             <ScrollView contentContainerStyle={style.wordsBox}>
-                {wordsPage?.content.map((word, wordIndex) => <View key={word.id}>
-                    <View style={style.termBox}>
-                        <Typography style={{ color: selectedDefinitions[0] === wordIndex ? colors.accent[600] : colors.primary[500] }} variant='h2'>{word.term}</Typography>
-                        <Typography style={{ color: selectedDefinitions[0] === wordIndex ? colors.accent[600] : colors.primary[500], marginBottom: 10 }} variant='body'>{wordIndex + 1}</Typography>
-                    </View>
-                    <View style={style.definitionsBox}>
-                        {word.definitions.map((definition, definitionIndex) => <View key={definitionIndex}>
-                            <DefinitionCard definition={definition} isSelected={isDefinitionSelected(wordIndex, definitionIndex)}
-                                onSelect={() => onSelectDefinition(wordIndex, definitionIndex)} />
-                        </View>)}
-                    </View>
-                </View>)}
+                {wordsPage?.content.map((word, wordIndex) =>
+                    <View style={{gap:8}} key={word.id}>
+                        <View style={style.termBox}>
+                            <Typography style={{
+                                color: selectedDefinitions[0] === wordIndex ? colors.accent[600]
+                                    : colors.primary[500]
+                            }} variant='h2'>{word.term}</Typography>
+                            <Typography style={{
+                                color: selectedDefinitions[0] === wordIndex ? colors.accent[600]
+                                    : colors.primary[500], marginBottom: 10
+                            }} variant='body'>{wordIndex + 1}</Typography>
+                        </View>
+                        <View style={style.definitionsBox}>
+                            {word.definitions.map((definition, definitionIndex) =>
+                                <View key={definitionIndex}>
+                                    <DefinitionCard definition={definition}
+                                        isSelected={isDefinitionSelected(wordIndex, definitionIndex)}
+                                        onSelect={() => onSelectDefinition(wordIndex, definitionIndex)} />
+                                </View>)}
+                        </View>
+                    </View>)}
             </ScrollView>
-            <Button iconRight='arrow-right' onPress={() => onNextScreen()} >{'Next'}</Button>
-        </View>
+        </ScreenLayout >
     )
 }
 
 const style = StyleSheet.create({
-    mainContainer: {
+    mainBox: {
         gap: 12,
-        flex: 1
     },
     wordsBox: {
         gap: 12,

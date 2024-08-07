@@ -1,6 +1,6 @@
 import { NativeStackHeaderProps, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { ParamListBase } from '@react-navigation/native';
 import { IconButton } from '../ui/Button/IconButton';
 import { Typography } from '../ui/Typography/Typography';
@@ -9,20 +9,20 @@ import { colors } from '../../styleVars';
 interface HeaderProps extends NativeStackHeaderProps {
     isModal?: boolean
     customGoBack?: (navigation: NativeStackNavigationProp<ParamListBase>) => void
+    containerStyle?: StyleProp<ViewStyle>
 
 }
 
 export function Header(props: HeaderProps) {
 
-    const { navigation, customGoBack, isModal, options } = props
-
+    const { navigation, customGoBack, isModal, options, containerStyle } = props
 
     const onClose = () => {
         navigation.getParent()?.navigate('Home')
     }
 
     return (
-        <View style={[style.mainBox]}>
+        <View style={[style.mainBox, containerStyle]}>
             <View style={style.titleAndBack}>
                 {navigation.getState().index > 0 && <IconButton variant='ghost'
                     icon='arrow-left' onPress={() => customGoBack
@@ -40,8 +40,7 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 16,
-        paddingVertical: 8,
+        marginBottom: 16,
         backgroundColor: "transparent",
     },
     titleAndBack: {

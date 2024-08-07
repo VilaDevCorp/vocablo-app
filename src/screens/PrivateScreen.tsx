@@ -32,7 +32,7 @@ export function PrivateScreen() {
               return <Icon type="word" size={size} color={iconColor} />;
           }
         }
-      })} sceneContainerStyle={{ padding: 16, paddingBottom:0 }}>
+      })} sceneContainerStyle={{ padding: 16, paddingBottom: 0, marginBottom:12 }}>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="AddWord" component={BlankScreen} listeners={({ navigation }) =>
           navigation.navigate("AddWordModal")} />

@@ -11,6 +11,7 @@ import { colors } from '../styleVars';
 import { useConfirm } from '../hooks/useConfirm';
 import { Icon } from '../components/ui/Icon/Icon';
 import { EditWordModal } from '../components/organisms/EditWordModal';
+import { ScreenLayout } from '../components/organisms/ScreenLayout';
 
 export function WordDetailsScreen({ }: {}) {
 
@@ -58,9 +59,23 @@ export function WordDetailsScreen({ }: {}) {
 
     return (
         userWord && <>
-            <ScrollView contentContainerStyle={style.definitionsList}>
+            <ScreenLayout isScrollable={true} isStickyButtons containerStyle={style.mainBox}
+                buttons={
+                    <>
+                        <Button onPress={() => { setEditModalVisible(true) }} variant='solid'>
+                            Edit
+                        </Button>
+                        <Button onPress={() => {
+                            showConfirmationModal("Do you really want to delete this word?",
+                                () => deleteUserWord(userWord.id),
+                                <Icon type='alert' color={colors.error[500]} size={64} />)
+                        }} disabled={disabledButtons} variant='ghost' fontColor={colors.error[500]}>
+                            Delete
+                        </Button>
+                    </>
+                }>
                 {userWord?.definitions && userWord?.definitions.map((def, index) => (
-                    <View key={index} style={style.definitionBox}>
+                    <View key={index}>
                         <View style={style.definitionAndNumber}>
                             <Typography style={{}} variant='definitionIndex'>{index + 1}</Typography>
                             <Typography key={index} style={{ flexWrap: 'wrap', flexShrink: 1, flexGrow: 1, flexBasis: 0 }} variant='body'>{def.definition}</Typography>
@@ -69,25 +84,20 @@ export function WordDetailsScreen({ }: {}) {
                         <Typography style={{ marginLeft: 36 }} variant='example'>{def.example}</Typography>
                     </View>
                 ))}
-            </ScrollView>
-            <View style={{}}>
-                <Button onPress={() => { setEditModalVisible(true) }} variant='solid'>Edit</Button>
-                <Button onPress={() => { showConfirmationModal("Do you really want to delete this word?", () => deleteUserWord(userWord.id), <Icon type='alert' color={colors.error[500]} size={64} />) }} disabled={disabledButtons} variant='ghost' fontColor={colors.error[500]}>Delete</Button>
-            </View>
+            </ScreenLayout>
+
+
             {editModalVisible && <EditWordModal word={userWord} onClose={() => setEditModalVisible(false)} />}
         </>
     )
 }
 
 const style = StyleSheet.create({
-    definitionsList: {
+    mainBox: {
         gap: 16
-    },
-    definitionBox: {
     },
     definitionAndNumber: {
         flexDirection: 'row',
-
         gap: 8,
     }
 })

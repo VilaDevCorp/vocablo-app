@@ -9,6 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useCrud } from '../../../hooks/useCrud';
 import { useNavigation } from '@react-navigation/native';
 import { useToast } from '../../../hooks/useToast';
+import { ScreenLayout } from '../ScreenLayout';
 
 export function AddWordModalSection2({ }: {}) {
 
@@ -67,8 +68,13 @@ export function AddWordModalSection2({ }: {}) {
     }
 
     return (
-        <View style={style.mainContainer}>
-            <ScrollView ref={scrollViewRef} contentContainerStyle={style.formBox}>
+        <ScreenLayout ref={scrollViewRef} buttons={
+            <Button disabled={disabledButton} onPress={() => { onCreateUserWord() }}>
+                {'Save'}
+            </Button>}
+            containerStyle={style.formBox}
+        >
+            <>
                 <Input value={form.term} setValue={setTerm} label='Term' />
                 <Button variant='outlined' iconLeft='add' onPress={() => addDefinition()}>
                     {"Add new definition"}
@@ -78,19 +84,12 @@ export function AddWordModalSection2({ }: {}) {
                         setDefinition={(definition: Definition) => setDefinition(definition, index)}
                         removeDefinition={() => removeDefinition(index)} />
                 ))}
-            </ScrollView>
-            <View style={style.buttonsBox}>
-                <Button disabled={disabledButton} onPress={() => { onCreateUserWord() }} >{'Save'}</Button>
-            </View>
-        </View>
+            </>
+        </ScreenLayout>
     )
 }
 
 const style = StyleSheet.create({
-    mainContainer: {
-        gap: 12,
-        flex: 1
-    },
     formBox: {
         gap: 12,
     },
@@ -102,8 +101,4 @@ const style = StyleSheet.create({
     definitionsBox: {
         gap: 12
     },
-    buttonsBox: {
-        gap: 8,
-        justifyContent: 'flex-end',
-    }
 })

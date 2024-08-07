@@ -10,6 +10,8 @@ import { WordCard } from '../components/atoms/WordCard';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MyWordsStackNavList } from '../types/navProps';
 import { useRefreshOnFocus } from '../hooks/useRefreshOnFocus';
+import { ScreenLayout } from '../components/organisms/ScreenLayout';
+import { Button } from '../components/ui/Button/Button';
 
 
 
@@ -31,15 +33,13 @@ export function MyWordsListScreen() {
     useRefreshOnFocus(refetchUserWords)
 
     return (
-        <View style={style.mainBox} >
-            <Typography variant='h2'>{"My words"}</Typography>
+        <ScreenLayout isScrollable={false} containerStyle={style.mainBox}>
             <Input value={searchKeyword} setValue={setSearchKeyword} placeholder='Search'
                 placeholderIcon='search' />
             <FlatList contentContainerStyle={style.wordList} data={userWordPages?.pages.flatMap(page => page.content)} renderItem={({ item }) => {
                 return <WordCard word={item} onPress={(id: string) => navigate("WordDetails", { userWordId: id })} />
             }} />
-
-        </View >
+        </ScreenLayout>
     );
 }
 
@@ -47,8 +47,7 @@ export function MyWordsListScreen() {
 
 const style = StyleSheet.create({
     mainBox: {
-        flex: 1,
-        gap: 36
+        gap: 12
     },
     wordList: {
         gap: 12

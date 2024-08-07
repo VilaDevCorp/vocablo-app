@@ -10,7 +10,7 @@ export function HomeScreen() {
         <View>
             <Text style={{ color: 'black' }}>WELCOME</Text>
             <Text style={{ color: 'black' }}>{user?.username}</Text>
-            <Button onPress={logout}>Logout</Button>
+            <Button  onPress={logout}>Logout</Button>
         </View>
     );
 }

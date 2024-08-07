@@ -6,22 +6,24 @@ import { useConfirm } from '../../hooks/useConfirm';
 import { Typography } from '../ui/Typography/Typography';
 import { Icon } from '../ui/Icon/Icon';
 import { colors } from '../../styleVars';
+import { ScreenLayout } from './ScreenLayout';
 
 export function ConfirmationModal() {
 
     const { visible, message, icon, closeConfirmationModal, onConfirm } = useConfirm()
 
     return (
-        visible && <Modal onClose={() => closeConfirmationModal()}>
-            <View style={style.mainBox}>
-                {icon && <View style={style.iconBox}>{icon}</View>}
-                <Typography style={style.message} variant='body'>{message}</Typography>
-                <View style={style.buttonsBox}>
+        visible &&
+        <Modal onClose={() => closeConfirmationModal()}>
+            <ScreenLayout isScrollable={false} buttons={
+                <>
                     <Button onPress={() => closeConfirmationModal()} variant='solid'>Cancel</Button>
                     <Button onPress={onConfirm ? onConfirm : () => false} variant='ghost'
                         fontColor={colors.error[500]}>Confirm</Button>
-                </View>
-            </View>
+                </>}>
+                {icon && <View style={style.iconBox}>{icon}</View>}
+                <Typography style={style.message} variant='body'>{message}</Typography>
+            </ScreenLayout>
         </Modal>
     )
 }

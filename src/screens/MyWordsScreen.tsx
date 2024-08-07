@@ -10,8 +10,8 @@ const MyWordStack = createNativeStackNavigator<MyWordsStackNavList>();
 export function MyWordsScreen() {
     return (
         <MyWordStack.Navigator screenOptions={{ animation: 'slide_from_right', header: (props) => <Header {...props} /> }} >
-            <MyWordStack.Screen options={{ headerShown: false }} name="MyWordsList" component={MyWordsListScreen} />
-            <MyWordStack.Screen options={{title:'asldjlfj'}} name="WordDetails" component={WordDetailsScreen} />
+            <MyWordStack.Screen options={{ title:'My words' }} name="MyWordsList" component={MyWordsListScreen} />
+            <MyWordStack.Screen name="WordDetails" component={WordDetailsScreen} />
         </MyWordStack.Navigator>
     );
 }

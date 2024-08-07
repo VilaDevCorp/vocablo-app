@@ -8,6 +8,7 @@ import { DefinitionForm } from '../molecules/DefinitionForm';
 import { useCrud } from '../../hooks/useCrud';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '../../hooks/useToast';
+import { ScreenLayout } from './ScreenLayout';
 
 export function EditWordModal({ word, onClose }: { word: UserWord, onClose: () => void }) {
 
@@ -70,32 +71,30 @@ export function EditWordModal({ word, onClose }: { word: UserWord, onClose: () =
 
 
     return (
-        <Modal onClose={onClose}>
-            <View style={style.mainContainer}>
-                <ScrollView ref={scrollViewRef} contentContainerStyle={style.formBox}>
-                    <Input value={form.term} setValue={(value: string) => setForm({ ...form, term: value })}
-                        label='Term' />
-                    <Button variant='outlined' iconLeft='add' onPress={() => addDefinition()}>
-                        {"Add new definition"}
-                    </Button>
-                    {form.definitions && form.definitions.map((definition, index) => (
-                        <DefinitionForm key={index} definition={definition} definitionIndex={index}
-                            setDefinition={(definition: Definition) => setDefinition(definition, index)}
-                            removeDefinition={() => removeDefinition(index)} />
-                    ))}
-                </ScrollView>
-                <View style={style.buttonsBox}>
-                    <Button disabled={disabledButton} onPress={() => { onUpdateUserWord() }} >{'Save'}</Button>
-                </View>
-            </View>
+        <Modal title='Edit word' onClose={onClose}>
+            <ScreenLayout buttons={
+                <Button disabled={disabledButton} onPress={() => { onUpdateUserWord() }}>
+                    {'Save'}
+                </Button>
+            } containerStyle={style.formBox} isScrollable>
+                <Input value={form.term} setValue={(value: string) => setForm({ ...form, term: value })}
+                    label='Term' />
+                <Button variant='outlined' iconLeft='add' onPress={() => addDefinition()}>
+                    {"Add new definition"}
+                </Button>
+                {form.definitions && form.definitions.map((definition, index) => (
+                    <DefinitionForm key={index} definition={definition} definitionIndex={index}
+                        setDefinition={(definition: Definition) => setDefinition(definition, index)}
+                        removeDefinition={() => removeDefinition(index)} />
+                ))}
+            </ScreenLayout>
         </Modal>
     )
 }
 
 const style = StyleSheet.create({
-    mainContainer: {
+    mainBox: {
         gap: 12,
-        flex: 1
     },
     formBox: {
         gap: 12,
