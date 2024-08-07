@@ -4,16 +4,14 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { ParamListBase } from '@react-navigation/native';
 import { IconButton } from '../ui/Button/IconButton';
 import { Typography } from '../ui/Typography/Typography';
-import { colors } from '../../styleVars';
 
 interface HeaderProps extends NativeStackHeaderProps {
     isModal?: boolean
     customGoBack?: (navigation: NativeStackNavigationProp<ParamListBase>) => void
     containerStyle?: StyleProp<ViewStyle>
-
 }
 
-export function Header(props: HeaderProps) {
+export function StackHeader(props: HeaderProps) {
 
     const { navigation, customGoBack, isModal, options, containerStyle } = props
 

@@ -9,7 +9,7 @@ import { CreateUserWordForm } from '../../../types/entities';
 import { useConfirm } from '../../../hooks/useConfirm';
 import { ParamListBase } from '@react-navigation/native';
 import { Icon } from '../../ui/Icon/Icon';
-import { Header } from '../../molecules/Header';
+import { StackHeader } from '../../molecules/StackHeader';
 
 const Stack = createNativeStackNavigator<AddWordModalNavList>();
 
@@ -38,7 +38,7 @@ export function AddWordModal() {
         <AddWordContext.Provider value={{ form: addWordForm, setForm: setAddWordForm }}>
             <Stack.Navigator screenOptions={{
                 animation: 'ios',
-                header: (props) => <Header containerStyle={{ margin:16, marginBottom:0}}
+                header: (props) => <StackHeader containerStyle={{ margin:16, marginBottom:0}}
                     {...props} isModal customGoBack={secureGoBack} />,
                 contentStyle: { padding: 16 }
             }}>
