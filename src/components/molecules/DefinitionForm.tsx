@@ -54,19 +54,7 @@ const style = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    definitionIndex: {
-        width: 35,
-        height: 35,
-        borderRadius: 35 / 2,
-        backgroundColor: colors.primary[500],
-        color: colors.neutral[100],
-        fontSize: 28,
-        textAlign: 'center',
-        verticalAlign: 'top',
-        textAlignVertical: 'top',
-        fontFamily: 'MerriweatherSans-Regular',
-        lineHeight: 35
-    },
+
     definitionInput: {
 
     },

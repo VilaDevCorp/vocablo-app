@@ -4,7 +4,7 @@ import { Typography } from '../components/ui/Typography/Typography';
 import { Input } from '../components/ui/Input/Input';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useCrud } from '../hooks/useCrud';
-import { UserWord } from '../types/entities';
+import { UserWord, UserWordSearchForm } from '../types/entities';
 import { Page } from '../types/types';
 import { WordCard } from '../components/atoms/WordCard';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -26,7 +26,7 @@ export function MyWordsListScreen() {
     const { data: userWordPages, refetch: refetchUserWords } = useInfiniteQuery<Page<UserWord>>({
         queryKey: ['myuserwords', searchKeyword],
         initialPageParam: 0,
-        queryFn: ({ pageParam }) => searchUserWords(pageParam as number, 10, { term: searchKeyword }),
+        queryFn: ({ pageParam }) => searchUserWords(pageParam as number, 10, { term: searchKeyword } as UserWordSearchForm),
         getNextPageParam: (lastPage) => lastPage.hasNext
     })
 

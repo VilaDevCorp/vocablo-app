@@ -15,7 +15,7 @@ interface CrudOperations<T> {
     remove: (id: string) => Promise<void>;
 }
 
-export type SearchFilters = { [key: string]: string | boolean | string[] };
+export type SearchFilters = { [key: string]: string | boolean | string[] | undefined };
 
 export function useCrud<T>(entity: string): CrudOperations<T> {
     const apiUrl = conf.apiUrl;

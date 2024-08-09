@@ -17,6 +17,7 @@ export interface SystemColors {
   error: Color;
   neutral: Color;
   success: Color;
+  warning: Color;
 }
 
 export const colors: SystemColors = {
@@ -54,7 +55,7 @@ export const colors: SystemColors = {
     900: '#12100C',
   },
   error: {
-    100: '#E93E35',
+    100: '#FA726B',
     200: '#DF2D20',
     300: '#D32717',
     400: '#BC2110',
@@ -65,7 +66,7 @@ export const colors: SystemColors = {
     900: '#6E0D02',
   },
   success: {
-    100: '#75FF91',
+    100: '#99ffad',
     200: '#3DF556',
     300: '#3AE951',
     400: '#26D938',
@@ -75,4 +76,15 @@ export const colors: SystemColors = {
     800: '#077C03',
     900: '#097000',
   },
+  warning: {
+    100: '#ffe066',
+    200: '#fddd5d',
+    300: '#facd38',
+    400: '#f6c02c',
+    500: '#f1b40e',
+    600: '#eaab0b',
+    700: '#e2a508',
+    800: '#d09006',
+    900: '#b37c05',
+  }
 };

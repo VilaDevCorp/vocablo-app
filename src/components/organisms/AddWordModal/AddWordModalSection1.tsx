@@ -62,8 +62,8 @@ export function AddWordModalSection1({ }: {}) {
     const { data: wordsPage, isLoading: isLoadingWordSearch, refetch: refetchWords } = useQuery<Page<Word>>({
         queryKey: ['searchWords', searchTerm],
         queryFn: async () => {
-            if (!searchTerm) return { content: [], hasNext: false, pageNumber: 0 }
-            const searchForm: WordSearchForm = { lang: 'en', term: searchTerm }
+            if (!searchTerm) return { content: [], hasNext: false, pageNumber: 0, nElements: 0 }
+            const searchForm: WordSearchForm = { lang: 'en', term: searchTerm, count: false }
             const words = await searchWords(0, 0, searchForm)
             return words
         },
@@ -103,7 +103,7 @@ export function AddWordModalSection1({ }: {}) {
                 placeholderIcon='search' />
             <ScrollView contentContainerStyle={style.wordsBox}>
                 {wordsPage?.content.map((word, wordIndex) =>
-                    <View style={{gap:8}} key={word.id}>
+                    <View style={{ gap: 8 }} key={word.id}>
                         <View style={style.termBox}>
                             <Typography style={{
                                 color: selectedDefinitions[0] === wordIndex ? colors.accent[600]

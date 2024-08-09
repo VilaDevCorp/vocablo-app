@@ -1,8 +1,9 @@
 import { createContext, ReactNode } from 'react';
-import { RegisterUserForm, User } from '../types/entities';
+import { Quiz, RegisterUserForm, User } from '../types/entities';
 import { ApiResponse } from '../types/types';
 import { conf } from '../conf';
 import { checkResponseException } from '../utils/utilFunctions';
+import { useAuth } from './useAuth';
 
 interface ApiContext {
   register: (user: RegisterUserForm) => void;
@@ -14,12 +15,15 @@ interface ApiContext {
     code: string,
     password: string,
   ) => Promise<void>;
+  sendQuiz: (quiz: Quiz) => Promise<number>;
 }
 
 export const ApiContext = createContext<ApiContext>({} as ApiContext);
 
 export const ApiProvider = ({ children }: { children: ReactNode }) => {
   const apiUrl = conf.apiUrl;
+
+  const { csrf } = useAuth();
 
   const register = async (form: RegisterUserForm) => {
     const url = `${apiUrl}public/register`;
@@ -86,12 +90,30 @@ export const ApiProvider = ({ children }: { children: ReactNode }) => {
     checkResponseException(res, resObject);
   };
 
+  const sendQuiz = async (quiz: Quiz): Promise<number> => {
+    const url = `${apiUrl}quiz/answer`;
+    const options: RequestInit = {
+      method: 'POST',
+      body: JSON.stringify(quiz),
+      credentials: 'include',
+      headers: new Headers({
+        'X-API-CSRF': csrf ? csrf : '',
+        'content-type': 'application/json'
+      })
+    };
+    const res = await fetch(url, options);
+    const resObject: ApiResponse<number> = await res.json();
+    checkResponseException(res, resObject);
+    return resObject.data;
+  }
+
   const value: ApiContext = {
     register,
     sendValidationCode,
     validateAccount,
     forgottenPassword,
     resetPassword,
+    sendQuiz
   };
 
   return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;

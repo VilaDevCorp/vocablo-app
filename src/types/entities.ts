@@ -29,6 +29,13 @@ export interface Word extends BaseEntity {
     definitions: Definition[];
 }
 
+export interface WordSearchForm extends SearchFilters {
+    term?: string;
+    lang?: string;
+    learned?: boolean;
+    count?: boolean;
+}
+
 export interface UserWord extends BaseEntity {
     term: string;
     definitions: Definition[];
@@ -46,7 +53,26 @@ export interface UpdateUserWordForm {
     definitions: Definition[];
 }
 
-export interface WordSearchForm extends SearchFilters {
-    term: string;
-    lang: string;
+export interface UserWordSearchForm extends SearchFilters {
+    term?: string;
+    lang?: string;
+    learned?: boolean;
+    count?: boolean;
+}
+
+export interface Quiz {
+    questions: QuizQuestion[];
+    score: number;
+}
+
+export interface QuizQuestion {
+    userWordID: string;
+    question: string;
+    options: string[];
+    correctOptionPos: number;
+    answerPos?: number;
+}
+
+export interface CreateQuizForm {
+    nQuestions: number;
 }

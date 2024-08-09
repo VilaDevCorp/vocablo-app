@@ -7,6 +7,7 @@ export interface Page<T> {
     pageNumber: number;
     hasNext: boolean;
     content: T[];
+    nElements: number;
 }
 export interface ApiResponse<T> {
     data: T;

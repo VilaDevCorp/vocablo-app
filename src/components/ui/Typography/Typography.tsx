@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { StyleProp, Text, TextStyle } from 'react-native';
 import { colors } from '../../../styleVars';
 
-export type TypographyVariant = 'h1' | 'h2' | 'h3' | 'button' | 'body' | 'hint'
+export type TypographyVariant = 'h1' | 'h2' | 'important' | 'button' | 'body' | 'hint'
   | 'label' | 'example' | 'definitionIndex';
 
 const getFontSize = (variant: TypographyVariant) => {
@@ -11,7 +11,7 @@ const getFontSize = (variant: TypographyVariant) => {
       return 36;
     case 'h2':
       return 24;
-    case 'h3':
+    case 'important':
       return 18;
     case 'button':
       return 16;
