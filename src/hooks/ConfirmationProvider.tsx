@@ -5,8 +5,7 @@ interface ConfirmationContext {
     visible: boolean;
     onConfirm?: () => void;
     message?: string;
-    icon?: ReactNode;
-    showConfirmationModal: (message: string, confirm: () => void, icon?: ReactNode) => void;
+    showConfirmationModal: (message: string, confirm: () => void) => void;
     closeConfirmationModal: () => void;
 }
 
@@ -21,9 +20,8 @@ export function ConfirmationProvider({ children }: { children: ReactNode }) {
     const [onConfirm, setOnConfirm] = useState<() => void>()
 
 
-    const showConfirmationModal = (message: string, confirm: () => void, icon?: ReactNode) => {
+    const showConfirmationModal = (message: string, confirm: () => void) => {
         setMessage(message)
-        setIcon(icon)
         setOnConfirm(() => () => { confirm(); closeConfirmationModal() })
         setVisible(true)
     }
@@ -39,7 +37,6 @@ export function ConfirmationProvider({ children }: { children: ReactNode }) {
     const value: ConfirmationContext = {
         visible,
         message,
-        icon,
         onConfirm,
         showConfirmationModal,
         closeConfirmationModal

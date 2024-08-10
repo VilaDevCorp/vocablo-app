@@ -12,6 +12,7 @@ import { StyleSheet, View } from 'react-native';
 import { Typography } from '../components/ui/Typography/Typography';
 import { Icon } from '../components/ui/Icon/Icon';
 import { colors } from '../styleVars';
+import { Message } from '../components/atoms/Message';
 
 interface QuizContext {
     quiz: Quiz | undefined
@@ -64,12 +65,9 @@ export function QuizScreen() {
 
     return (
         <QuizContext.Provider value={{ quiz, setQuiz, selectedOption, setSelectedOption, currentQuestion, setCurrentQuestion }} >
-            <ScreenLayout isStickyButtons={false} buttons={<Button disabled={!!(nUserWords && nUserWords < 4)} onPress={() => onCreateQuiz()}>{"Start quiz"}</Button>} >
-                {nUserWords && nUserWords < 4 ?
-                    <View style={style.alertMessage}>
-                        <Icon type='alert' size={50} color={colors.warning[500]} />
-                        <Typography style={{ textAlign: 'center' }} variant='important'>{`You need at least 4 not learned words to start a quiz. (You only have ${nUserWords})`}</Typography>
-                    </View>
+            <ScreenLayout isStickyButtons={false} containerStyle={{ paddingBottom: 16 }} buttons={<Button disabled={!!(nUserWords && nUserWords < 4)} onPress={() => onCreateQuiz()}>{"Start quiz"}</Button>} >
+                {!nUserWords || nUserWords < 4 ?
+                    <Message type='info' message={`You need at least 4 not learned words to start a quiz. (You only have ${nUserWords})`} />
                     :
                     <Slider value={nQuestions} setValue={setNQuestions} minVal={4} maxVal={nUserWords ? nUserWords : 4} label='Number of words' containerStyle={{ width: '90%', alignSelf: 'center' }} />
                 }

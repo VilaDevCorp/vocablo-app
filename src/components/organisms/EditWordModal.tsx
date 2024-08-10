@@ -76,7 +76,8 @@ export function EditWordModal({ word, onClose }: { word: UserWord, onClose: () =
                 <Button disabled={disabledButton} onPress={() => { onUpdateUserWord() }}>
                     {'Save'}
                 </Button>
-            } containerStyle={style.formBox} isScrollable>
+            } containerStyle={{ paddingBottom: 16 }}
+                contentContainerStyle={style.formBox} isScrollable>
                 <Input value={form.term} setValue={(value: string) => setForm({ ...form, term: value })}
                     label='Term' />
                 <Button variant='outlined' iconLeft='add' onPress={() => addDefinition()}>

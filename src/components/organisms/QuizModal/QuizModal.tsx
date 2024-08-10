@@ -56,7 +56,7 @@ export function QuizModal() {
     return (
         <Modal title={score ? "Result" : `${currentQuestion + 1}/${totalQuestions}`} onClose={() => setQuiz(undefined)}>
             {quiz &&
-                <ScreenLayout isStickyButtons buttons={
+                <ScreenLayout isStickyButtons containerStyle={{ paddingBottom: 16 }} buttons={
                     score !== undefined ?
                         <Button onPress={() => setQuiz(undefined)}>
                             {"Finish quiz"}

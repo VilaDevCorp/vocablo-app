@@ -1,9 +1,9 @@
-import React, {ReactNode, useState} from 'react';
-import {StyleSheet, Pressable, Text} from 'react-native';
-import {Icon, SystemIcons} from '../Icon/Icon';
-import {colors} from '../../../styleVars';
-import {LoadingIcon} from '../Icon/icons/LoadingIcon';
-import {Typography} from '../Typography/Typography';
+import React, { ReactNode, useState } from 'react';
+import { StyleSheet, Pressable, Text } from 'react-native';
+import { Icon, SystemIcons } from '../Icon/Icon';
+import { colors } from '../../../styleVars';
+import { LoadingIcon } from '../Icon/icons/LoadingIcon';
+import { Typography } from '../Typography/Typography';
 
 export type ButtonVariant = 'solid' | 'outlined' | 'ghost';
 
@@ -37,7 +37,7 @@ export function Button(props: ButtonProps) {
       case 'solid':
         return pressed ? colors.primary[700] : colors.primary[500];
       case 'outlined':
-        return pressed ? colors.neutral[100] : 'transparent';
+        return pressed ? 'transparent' : 'transparent';
       case 'ghost':
         return pressed ? 'transparent' : 'transparent';
     }
@@ -73,11 +73,11 @@ export function Button(props: ButtonProps) {
       paddingHorizontal: 24,
       paddingVertical: 8,
       borderRadius: 12,
-      minHeight: 50,
       backgroundColor: getBgColor(),
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center',
+      minHeight: 40,
       gap: 8,
       alignItems: 'center',
       borderWidth: 2,

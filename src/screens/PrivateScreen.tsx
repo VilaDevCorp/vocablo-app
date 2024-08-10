@@ -21,6 +21,7 @@ export function PrivateScreen() {
       <Tab.Navigator screenOptions={(props) => ({
         tabBarHideOnKeyboard: true,
         header: (props) => <BottomTabsHeader {...props} />,
+        tabBarStyle: { backgroundColor: colors.neutral[100]},
         tabBarLabel: () => null,
         tabBarIconStyle: { color: 'red' },
         tabBarIcon: ({ focused, color, size }) => {
@@ -36,14 +37,14 @@ export function PrivateScreen() {
               return <Icon type="circle-check" size={size} color={iconColor} />;
           }
         }
-      })} sceneContainerStyle={{ padding: 16, paddingBottom: 0, marginBottom: 12 }}>
+      })} sceneContainerStyle={{ padding: 16, paddingBottom:0, backgroundColor: colors.neutral[200] }}>
         <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Tab.Screen name="AddWord" component={BlankScreen} options={{ headerShown: false }}
           listeners={({ navigation }) =>
             navigation.navigate("AddWordModal")} />
         <Tab.Screen name="MyWords" component={MyWordsScreen}
           options={{ headerShown: false }} />
-        <Tab.Screen name="Quiz" component={QuizScreen} options={{title:'Quiz'}} />
+        <Tab.Screen name="Quiz" component={QuizScreen} options={{ title: 'Quiz' }} />
       </Tab.Navigator >
     </>
   );

@@ -69,10 +69,11 @@ export function AddWordModalSection2({ }: {}) {
 
     return (
         <ScreenLayout ref={scrollViewRef} buttons={
-            <Button disabled={disabledButton} onPress={() => { onCreateUserWord() }}>
+            <Button disabled={disabledButton} isLoading={isCreatingUserWord} onPress={() => { onCreateUserWord() }}>
                 {'Save'}
             </Button>}
-            containerStyle={style.formBox}
+            contentContainerStyle={style.formBox}
+            containerStyle={{ paddingBottom: 0 }}
         >
             <>
                 <Input value={form.term} setValue={setTerm} label='Term' />
@@ -92,6 +93,7 @@ export function AddWordModalSection2({ }: {}) {
 const style = StyleSheet.create({
     formBox: {
         gap: 12,
+        paddingBottom: 16
     },
     termBox: {
         flexDirection: 'row',

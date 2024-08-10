@@ -31,7 +31,7 @@ export function AddWordModal() {
 
     const secureGoBack = (navigation: NativeStackNavigationProp<ParamListBase>) => {
         showConfirmationModal('If you go back, you will lose your changes. Are you sure?',
-            () => navigation.goBack(), <Icon type='alert' color={colors.error[500]} size={64} />)
+            () => navigation.goBack())
     }
 
     return (
@@ -40,7 +40,7 @@ export function AddWordModal() {
                 animation: 'ios',
                 header: (props) => <StackHeader containerStyle={{ margin:16, marginBottom:0}}
                     {...props} isModal customGoBack={secureGoBack} />,
-                contentStyle: { padding: 16 }
+                contentStyle: { padding: 16, paddingBottom:0 }
             }}>
                 <Stack.Screen name='SearchWord' options={{ title: 'Add word' }} component={AddWordModalSection1} />
                 <Stack.Screen name='SaveWord' options={{ title: 'Add word' }} component={AddWordModalSection2} />

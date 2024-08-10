@@ -56,7 +56,7 @@ export const Body = () => {
 const style = StyleSheet.create({
   safeViewLayout: {
     flex: 1,
-    backgroundColor: colors.neutral[100],
+    backgroundColor: colors.neutral[200],
   },
   content: {
     flex: 1,

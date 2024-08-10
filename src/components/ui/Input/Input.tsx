@@ -3,6 +3,7 @@ import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native'
 import { Icon, SystemIcons } from '../Icon/Icon';
 import { colors } from '../../../styleVars';
 import { Typography } from '../Typography/Typography';
+import { LoadingIcon } from '../Icon/icons/LoadingIcon';
 
 type InputProps = TextInputProps & {
   setValue: (value: string) => void;
@@ -13,6 +14,7 @@ type InputProps = TextInputProps & {
   disabled?: boolean;
   hasError?: boolean;
   isTextArea?: boolean;
+  isLoading?: boolean;
 };
 
 export const Input = (props: InputProps) => {
@@ -25,6 +27,7 @@ export const Input = (props: InputProps) => {
     placeholderIcon,
     hasError,
     isTextArea,
+    isLoading,
     ...nativeInputProps
   } = props;
   const [isFocus, setIsFocus] = useState(false);
@@ -42,7 +45,7 @@ export const Input = (props: InputProps) => {
             isFocus && !disabled && style.inputBoxFocus,
             hasError && style.inputBoxError,
             disabled && style.inputBoxDisabled,
-            isTextArea && { minHeight: 100, height: 100, alignItems: 'flex-start' },
+            isTextArea && { minHeight: 100, height: 'auto', alignItems: 'flex-start' },
           ]}>
           {placeholderIcon && <Icon type={placeholderIcon} color={colors.neutral[400]} size={24} />}
           <TextInput
@@ -67,6 +70,7 @@ export const Input = (props: InputProps) => {
             placeholderTextColor={colors.neutral[400]}
             editable={!disabled}
           />
+          {isLoading && <LoadingIcon color={colors.neutral[700]} size={24} />}
         </View>
       </View>
     </View>
@@ -89,7 +93,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 24,
     flexDirection: 'row',
     borderRadius: 12,
-    backgroundColor: colors.neutral[200],
+    backgroundColor: colors.neutral[300],
     color: colors.neutral[600],
     gap: 8,
     alignItems: 'center',

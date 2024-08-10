@@ -59,7 +59,7 @@ export function WordDetailsScreen({ }: {}) {
 
     return (
         userWord && <>
-            <ScreenLayout isScrollable={true} isStickyButtons containerStyle={style.mainBox}
+            <ScreenLayout isScrollable={true} isStickyButtons contentContainerStyle={{gap:16}} containerStyle={style.mainBox}
                 buttons={
                     <>
                         <Button onPress={() => { setEditModalVisible(true) }} variant='solid'>
@@ -67,8 +67,7 @@ export function WordDetailsScreen({ }: {}) {
                         </Button>
                         <Button onPress={() => {
                             showConfirmationModal("Do you really want to delete this word?",
-                                () => deleteUserWord(userWord.id),
-                                <Icon type='alert' color={colors.error[500]} size={64} />)
+                                () => deleteUserWord(userWord.id))
                         }} disabled={disabledButtons} variant='ghost' fontColor={colors.error[500]}>
                             Delete
                         </Button>
@@ -84,7 +83,7 @@ export function WordDetailsScreen({ }: {}) {
                         <Typography style={{ marginLeft: 36 }} variant='example'>{def.example}</Typography>
                     </View>
                 ))}
-            </ScreenLayout>
+            </ScreenLayout >
 
 
             {editModalVisible && <EditWordModal word={userWord} onClose={() => setEditModalVisible(false)} />}
@@ -94,7 +93,7 @@ export function WordDetailsScreen({ }: {}) {
 
 const style = StyleSheet.create({
     mainBox: {
-        gap: 16
+        gap: 16,
     },
     definitionAndNumber: {
         flexDirection: 'row',

@@ -12,7 +12,7 @@ const getFontSize = (variant: TypographyVariant) => {
     case 'h2':
       return 24;
     case 'important':
-      return 18;
+      return 16;
     case 'button':
       return 16;
     case 'label':
@@ -39,6 +39,8 @@ const getColor = (variant: TypographyVariant) => {
   switch (variant) {
     case 'h2':
       return colors.primary[900];
+    case 'important':
+      return colors.neutral[700];
     case 'hint':
       return colors.neutral[500];
     case 'label':
@@ -54,6 +56,8 @@ const getLineHeight = (variant: TypographyVariant) => {
   switch (variant) {
     case 'body':
       return 20;
+    case 'important':
+      return 24;
     default:
       return undefined;
   }
@@ -76,14 +80,17 @@ const definitionIndexStyle: StyleProp<TextStyle> = {
 export function Typography({
   variant = 'body',
   style,
+  nLines,
   children,
 }: {
   variant?: TypographyVariant;
   style?: StyleProp<TextStyle>;
+  nLines?: number;
   children: ReactNode;
 }) {
   return (
     <Text
+      numberOfLines={nLines}
       style={[
         variant === 'definitionIndex' ? definitionIndexStyle :
           {

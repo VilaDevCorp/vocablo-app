@@ -35,7 +35,6 @@ export function QuestionOption({ nOption, answer, onPickAnswer }: { nOption: num
         <Pressable style={[style.mainBox, getOptionStyle()]} onPress={isQuestionAnswered ? () => false : () => onPickAnswer()}>
             <Typography variant="body" style={isOptionSelected ? style.selectedOptionText : style.text}>
                 {answer}
-                {isOptionCorrect ? " (Correct)" : "Incorrect"}
             </Typography>
         </Pressable>
     )

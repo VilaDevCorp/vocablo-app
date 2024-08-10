@@ -16,6 +16,7 @@ import Trash from './icons/trash.svg';
 import Home from './icons/home.svg';
 import Word from './icons/word.svg';
 import CircleCheck from './icons/circle-check.svg';
+import SearchX from './icons/search-x.svg';
 
 export type IconProps = {
   type: SystemIcons;
@@ -39,7 +40,8 @@ export type SystemIcons =
   | 'trash'
   | 'home'
   | 'word'
-  | 'circle-check';
+  | 'circle-check'
+  | 'search-x';
 
 export const Icon = (props: IconProps) => {
   const { type, size = 16, color = colors.primary[500] } = props;
@@ -84,6 +86,8 @@ function getIconType(
       return <Word width={size} height={size} color={color} />;
     case 'circle-check':
       return <CircleCheck width={size} height={size} color={color} />;
+    case 'search-x':
+      return <SearchX width={size} height={size} color={color} />;
     default:
       return <></>;
   }

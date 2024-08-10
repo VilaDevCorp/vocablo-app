@@ -7,10 +7,11 @@ import { Typography } from '../ui/Typography/Typography';
 import { Icon } from '../ui/Icon/Icon';
 import { colors } from '../../styleVars';
 import { ScreenLayout } from './ScreenLayout';
+import { Message } from '../atoms/Message';
 
 export function ConfirmationModal() {
 
-    const { visible, message, icon, closeConfirmationModal, onConfirm } = useConfirm()
+    const { visible, message, closeConfirmationModal, onConfirm } = useConfirm()
 
     return (
         visible &&
@@ -21,8 +22,7 @@ export function ConfirmationModal() {
                     <Button onPress={onConfirm ? onConfirm : () => false} variant='ghost'
                         fontColor={colors.error[500]}>Confirm</Button>
                 </>}>
-                {icon && <View style={style.iconBox}>{icon}</View>}
-                <Typography style={style.message} variant='body'>{message}</Typography>
+                <Message type='alert' message={message} />
             </ScreenLayout>
         </Modal>
     )

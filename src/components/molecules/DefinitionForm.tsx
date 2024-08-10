@@ -35,11 +35,12 @@ export function DefinitionForm({ definition, definitionIndex, setDefinition,
                 <IconButton icon='trash' variant='ghost' fontColor={colors.error[500]}
                     onPress={() => onDelete()} />
             </View>
-
-            <Input style={style.definitionInput} label='Definition' value={definition.definition}
-                setValue={onDefinitionChange} isTextArea />
-            <Input style={style.exampleInput} label='Example' value={definition.example}
-                setValue={onExampleChange} isTextArea />
+            <View style={{gap:12}}>
+                <Input style={style.definitionInput} label='Definition' value={definition.definition}
+                    setValue={onDefinitionChange} isTextArea />
+                <Input style={style.exampleInput} label='Example' value={definition.example}
+                    setValue={onExampleChange} isTextArea />
+            </View>
         </View>
     )
 }
