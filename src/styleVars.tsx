@@ -1,23 +1,24 @@
-interface Color {
-  0?: string;
-  100?: string;
-  200?: string;
-  300?: string;
-  400?: string;
-  500?: string;
-  600?: string;
-  700?: string;
-  800?: string;
-  900?: string;
+import { ColorValue } from "react-native";
+
+interface ColorPalette {
+  100: ColorValue;
+  200: ColorValue;
+  300: ColorValue;
+  400: ColorValue;
+  500: ColorValue;
+  600: ColorValue;
+  700: ColorValue;
+  800: ColorValue;
+  900: ColorValue;
 }
 
 export interface SystemColors {
-  primary: Color;
-  accent: Color;
-  error: Color;
-  neutral: Color;
-  success: Color;
-  warning: Color;
+  primary: ColorPalette;
+  accent: ColorPalette;
+  error: ColorPalette;
+  neutral: ColorPalette;
+  success: ColorPalette;
+  warning: ColorPalette;
 }
 
 export const colors: SystemColors = {

@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react';
-import { StyleSheet, Pressable, Text } from 'react-native';
+import { StyleSheet, Pressable, Text, ColorValue } from 'react-native';
 import { Icon, SystemIcons } from '../Icon/Icon';
 import { colors } from '../../../styleVars';
 import { LoadingIcon } from '../Icon/icons/LoadingIcon';
@@ -15,7 +15,7 @@ type ButtonProps = {
   isLoading?: boolean;
   iconLeft?: SystemIcons;
   iconRight?: SystemIcons;
-  fontColor?: string;
+  fontColor?: ColorValue;
 };
 
 export function Button(props: ButtonProps) {

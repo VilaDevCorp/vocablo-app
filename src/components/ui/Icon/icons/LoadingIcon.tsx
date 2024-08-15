@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Animated, Easing, StyleSheet, Text} from 'react-native';
+import {Animated, ColorValue, Easing, StyleSheet, Text} from 'react-native';
 import {colors} from '../../../../styleVars';
 import IconLoading from './loading.svg';
 
@@ -8,7 +8,7 @@ export function LoadingIcon({
   color = colors.primary[500],
 }: {
   size?: number;
-  color?: string;
+  color?: ColorValue;
 }) {
   const [spinValue] = useState(new Animated.Value(0));
 

@@ -17,11 +17,12 @@ import Home from './icons/home.svg';
 import Word from './icons/word.svg';
 import CircleCheck from './icons/circle-check.svg';
 import SearchX from './icons/search-x.svg';
+import { ColorValue } from 'react-native';
 
 export type IconProps = {
   type: SystemIcons;
   size?: number;
-  color?: string;
+  color?: ColorValue;
 };
 
 export type SystemIcons =
@@ -51,7 +52,7 @@ export const Icon = (props: IconProps) => {
 function getIconType(
   type: SystemIcons,
   size = 12,
-  color?: string,
+  color?: ColorValue,
 ): React.ReactElement {
   switch (type) {
     case 'add':
