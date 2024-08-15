@@ -39,7 +39,6 @@ const style = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 16,
-        backgroundColor: "transparent",
     },
     titleAndBack: {
         flexDirection: 'row',

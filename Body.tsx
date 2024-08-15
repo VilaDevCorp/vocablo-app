@@ -34,6 +34,7 @@ export const Body = () => {
           <RootStack.Navigator
             screenOptions={{
               headerShown: false,
+              contentStyle: { backgroundColor: colors.neutral[200] }
             }}>
             {csrf ?
               <>

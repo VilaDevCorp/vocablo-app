@@ -11,9 +11,6 @@ export function WordCardSkeleton() {
         <View style={style.mainBox} >
             <View style={style.nameAndProgress}>
                 <View style={style.termSkeleton} ></View>
-                {/* {word.learningProgress ? <Progress size={24} percentage={word.learningProgress} />
-                    : <Text style={{ color: colors.primary[400] }}>{"NEW"}</Text>
-                } */}
             </View>
             <View style={style.definitionAndExample}>
                 <View style={style.definitonSkeleton}></View>
@@ -44,7 +41,7 @@ const style = StyleSheet.create({
         height: 20,
         marginTop: 8,
         backgroundColor: colors.neutral[400],
-        borderRadius: 12, 
+        borderRadius: 12,
         marginBottom: 8
     },
     definitonSkeleton: {

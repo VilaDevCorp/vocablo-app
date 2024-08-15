@@ -18,7 +18,7 @@ export const ScreenLayout = forwardRef((props: ScreenLayoutProps, ref: Ref<Scrol
     return (
         <View style={[style.mainBox, containerStyle]}>
             {isScrollable ?
-                <ScrollView style={{ flex: 1 }} indicatorStyle='black' contentContainerStyle={[contentContainerStyle, { flexGrow: 1 }]}
+                <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }} indicatorStyle='black' contentContainerStyle={[contentContainerStyle, { flexGrow: 1 }]}
                     ref={ref}>
                     {children}
                     {!isStickyButtons && <View style={style.buttonBox}>{buttons}</View>}
