@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Typography } from '../components/ui/Typography/Typography';
+import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import { Input } from '../components/ui/Input/Input';
-import { keepPreviousData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { useCrud } from '../hooks/useCrud';
 import { UserWord, UserWordSearchForm } from '../types/entities';
 import { Page } from '../types/types';
@@ -11,9 +10,9 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { MyWordsStackNavList } from '../types/navProps';
 import { useRefreshOnFocus } from '../hooks/useRefreshOnFocus';
 import { ScreenLayout } from '../components/organisms/ScreenLayout';
-import { Button } from '../components/ui/Button/Button';
 import { WordCardSkeleton } from '../components/atoms/WordCardSkeleton';
 import { Message } from '../components/atoms/Message';
+import { FlatListLoadingIndicator } from '../components/atoms/FlatListLoadingIndicator';
 
 
 
@@ -25,17 +24,16 @@ export function MyWordsListScreen() {
 
     const firstRender = useRef<boolean>(true)
 
-
     const { navigate } = useNavigation<NavigationProp<MyWordsStackNavList>>()
 
-    const { data: userWordPages, refetch: refetchUserWords, status, isFetching: isLoading } = useInfiniteQuery<Page<UserWord>>({
+    const { data: userWordPages, refetch: refetchUserWords, status, isFetching: isLoading, fetchNextPage, isFetchingNextPage } = useInfiniteQuery<Page<UserWord>>({
         queryKey: ['myuserwords'],
         placeholderData: keepPreviousData,
         initialPageParam: 0,
         staleTime: 1,
         gcTime: 1,
-        queryFn: ({ pageParam }) => searchUserWords(pageParam as number, 10, { term: searchTerm } as UserWordSearchForm),
-        getNextPageParam: (lastPage) => lastPage.hasNext,
+        queryFn: ({ pageParam }) => searchUserWords(pageParam as number, 15, { term: searchTerm } as UserWordSearchForm),
+        getNextPageParam: (lastPage) => lastPage.hasNext ? lastPage.pageNumber + 1 : undefined,
         enabled: false
     })
 
@@ -44,6 +42,7 @@ export function MyWordsListScreen() {
     useEffect(() => {
         refetchUserWords()
     }, [])
+
 
     useEffect(() => {
         if (firstRender.current) {
@@ -62,8 +61,8 @@ export function MyWordsListScreen() {
     return (
         <ScreenLayout isScrollable={false} containerStyle={{ paddingBottom: 0 }} contentContainerStyle={style.mainBox}>
             <Input value={searchTerm} setValue={setSearchTerm} placeholder='Search'
-                placeholderIcon='search'/>
-            {firstRender.current || isLoading ?
+                placeholderIcon='search' />
+            {firstRender.current || (isLoading && !isFetchingNextPage) ?
                 <ScrollView contentContainerStyle={style.wordList}>
                     {Array.from(Array(10).keys()).map((_, index) => <WordCardSkeleton key={index} />)}
                 </ScrollView>
@@ -74,12 +73,17 @@ export function MyWordsListScreen() {
                             message={"No results found."} />
                     </View>
                     :
-                    <FlatList contentContainerStyle={style.wordList}
-                        data={userWordPages?.pages.flatMap(page => page.content)}
-                        renderItem={({ item }) =>
-                            <WordCard word={item}
-                                onPress={(id: string) => navigate("WordDetails", { userWordId: id })} />
-                        } />
+                    <>
+                        <FlatList contentContainerStyle={style.wordList}
+                            data={userWordPages?.pages.flatMap(page => page.content)}
+                            onEndReached={() => fetchNextPage()}
+                            onEndReachedThreshold={0.05}
+                            renderItem={({ item }) =>
+                                <WordCard word={item}
+                                    onPress={(id: string) => navigate("WordDetails", { userWordId: id })} />
+                            } />
+                        {isFetchingNextPage ? <FlatListLoadingIndicator /> : undefined}
+                    </>
             }
         </ScreenLayout>
     );
