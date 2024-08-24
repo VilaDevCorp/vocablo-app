@@ -40,7 +40,7 @@ export function AddWordModalSection2({ }: {}) {
                 && form.definitions.some(def => def.definition !== '') && form.lang !== '') {
                 return createUserWord(form)
             }
-            return new Promise((resolve, reject) => reject());
+            return Promise.reject()
         },
         onSuccess: () => { showToast('Word created!', 'check', 'success'); onClose() },
         onError: () => { showToast('There was an error creating the word', 'alert', 'error') }

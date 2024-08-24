@@ -10,18 +10,18 @@ import { ConfirmationProvider } from './src/hooks/ConfirmationProvider';
 const App = () => {
   return (
     <ToastProvider>
-      <ErrorProvider>
-        <ConfirmationProvider>
-          <ReactQueryProvider>
-            <AuthProvider>
+      <ConfirmationProvider>
+        <AuthProvider>
+          <ErrorProvider>
+            <ReactQueryProvider>
               <ApiProvider>
                 <Body />
               </ApiProvider>
-            </AuthProvider>
-          </ReactQueryProvider>
-        </ConfirmationProvider>
-      </ErrorProvider>
-    </ToastProvider>
+            </ReactQueryProvider>
+          </ErrorProvider>
+        </AuthProvider>
+      </ConfirmationProvider>
+    </ToastProvider >
   );
 };
 export default App;

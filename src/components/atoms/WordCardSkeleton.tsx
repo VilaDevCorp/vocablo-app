@@ -41,22 +41,18 @@ const style = StyleSheet.create({
         height: 20,
         marginTop: 8,
         backgroundColor: colors.neutral[400],
-        borderRadius: 12,
+        borderRadius: 8,
         marginBottom: 8
     },
     definitonSkeleton: {
         width: '100%',
         height: 10,
         backgroundColor: colors.neutral[400],
-        borderRadius: 12
+        borderRadius: 8
     },
     definitionAndExample: {
         height: 'auto',
         gap: 8
     },
-    definitionText: {
-
-        // overflow: 'hidden
-    }
 
 })

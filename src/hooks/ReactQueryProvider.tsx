@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import React, { ReactNode, createContext } from 'react';
 import { useToast } from './useToast';
+import { useError } from './useError';
 
 interface ReactQueryContext {
   queryClient: QueryClient;
@@ -19,16 +20,21 @@ export const ReactQueryContext = createContext<ReactQueryContext>(
 //We can use the toast too, because from the App.tsx we are not able to use it as its not a child of the ToastProvider
 export const ReactQueryProvider = ({ children }: { children: ReactNode }) => {
   const { showToast } = useToast();
+  const { setError } = useError();
 
   const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
     queryCache: new QueryCache({
       onError: (e, query) => {
+        const errorMsg = query?.meta?.errorInfo ? query.meta.errorInfo as string : 'An error occurred';
         if (query.meta?.errorInfo) {
-          showToast(
-            query.meta ? (query.meta.errorInfo as string) : 'An error occurred',
-          );
+          showToast(errorMsg, 'alert', 'error');
         } else {
-          showToast('An internal error occurred', 'alert', 'error');
+          setError(e)
         }
       },
     }),

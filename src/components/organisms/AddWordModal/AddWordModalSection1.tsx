@@ -61,9 +61,12 @@ export function AddWordModalSection1({ }: {}) {
 
     const { search: searchWords } = useCrud<Word>('word')
 
-    const { data: wordsPage, isFetching: isLoadingWordSearch, refetch: refetchWords } = useQuery<Page<Word>>({
+    const { data: wordsPage, status: wordsQueryStatus, isFetching: isLoadingWordSearch, refetch: refetchWords } = useQuery<Page<Word>>({
         queryKey: ['searchWords', searchTerm],
         placeholderData: keepPreviousData,
+        meta: {
+            errorInfo: 'Error fetching words'
+        },
         queryFn: async () => {
             return searchTerm ? searchWords(0, 0, { lang: 'en', term: searchTerm, count: false } as WordSearchForm)
                 : { content: [], hasNext: false, pageNumber: 0, nElements: 0 } as Page<Word>
@@ -109,38 +112,44 @@ export function AddWordModalSection1({ }: {}) {
         >
             <Input value={searchTerm} setValue={setSearchTerm} placeholder='Search word'
                 placeholderIcon='search' isLoading={isLoadingWordSearch} />
-            {searchTerm === '' || isStartingSearch ?
-                <View style={{ marginTop: 24 }}>
-                    <Message type='info' message={"You can search word definitions and adapt them on the next screen. "} />
+            {wordsQueryStatus === 'error' ?
+                <View style={{ marginTop: 50 }}>
+                    <Message type='alert'
+                        message={"Error fetching words"} />
                 </View>
                 :
-                !isLoadingWordSearch && wordsPage?.content.length === 0 ?
+                searchTerm === '' || isStartingSearch ?
                     <View style={{ marginTop: 24 }}>
-                        <Message type='not-found' message={"We can't find your word. Click NEXT to create your own word."} />
-                    </View> :
-                    <ScrollView contentContainerStyle={style.wordsBox}>
-                        {wordsPage?.content.map((word, wordIndex) =>
-                            <View style={{ gap: 8 }} key={word.id}>
-                                <View style={style.termBox}>
-                                    <Typography style={{
-                                        color: selectedDefinitions[0] === wordIndex ? colors.accent[600]
-                                            : colors.primary[500]
-                                    }} variant='h2'>{word.term}</Typography>
-                                    <Typography style={{
-                                        color: selectedDefinitions[0] === wordIndex ? colors.accent[600]
-                                            : colors.primary[500], marginBottom: 10
-                                    }} variant='body'>{wordIndex + 1}</Typography>
-                                </View>
-                                <View style={style.definitionsBox}>
-                                    {word.definitions.map((definition, definitionIndex) =>
-                                        <View key={definitionIndex}>
-                                            <DefinitionCard definition={definition}
-                                                isSelected={isDefinitionSelected(wordIndex, definitionIndex)}
-                                                onSelect={() => onSelectDefinition(wordIndex, definitionIndex)} />
-                                        </View>)}
-                                </View>
-                            </View>)}
-                    </ScrollView>
+                        <Message type='info' message={"Search word definitions or write your own term in the next screen. "} />
+                    </View>
+                    :
+                    !isLoadingWordSearch && wordsPage?.content.length === 0 ?
+                        <View style={{ marginTop: 24 }}>
+                            <Message type='not-found' message={"We can't find your word. Click NEXT to create your own word."} />
+                        </View> :
+                        <ScrollView contentContainerStyle={style.wordsBox}>
+                            {wordsPage?.content.map((word, wordIndex) =>
+                                <View style={{ gap: 8 }} key={word.id}>
+                                    <View style={style.termBox}>
+                                        <Typography style={{
+                                            color: selectedDefinitions[0] === wordIndex ? colors.accent[300]
+                                                : colors.primary[500]
+                                        }} variant='h2'>{word.term}</Typography>
+                                        <Typography style={{
+                                            color: selectedDefinitions[0] === wordIndex ? colors.accent[300]
+                                                : colors.primary[500], marginBottom: 10
+                                        }} variant='body'>{wordIndex + 1}</Typography>
+                                    </View>
+                                    <View style={style.definitionsBox}>
+                                        {word.definitions.map((definition, definitionIndex) =>
+                                            <View key={definitionIndex}>
+                                                <DefinitionCard definition={definition}
+                                                    isSelected={isDefinitionSelected(wordIndex, definitionIndex)}
+                                                    onSelect={() => onSelectDefinition(wordIndex, definitionIndex)} />
+                                            </View>)}
+                                    </View>
+                                </View>)}
+                        </ScrollView>
             }
         </ScreenLayout >
     )

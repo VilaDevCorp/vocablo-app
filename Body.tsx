@@ -5,6 +5,7 @@ import { PublicScreen } from './src/screens/PublicScreen';
 import { Toast } from './src/components/ui/Toast/Toast';
 import { useAuth } from './src/hooks/useAuth';
 import { PrivateScreen } from './src/screens/PrivateScreen';
+import { InitScreen } from './src/screens/InitScreen';
 import { colors } from './src/styleVars';
 import { RootStackParamList } from './src/types/navProps';
 import { AddWordModal } from './src/components/organisms/AddWordModal/AddWordModal';
@@ -15,7 +16,7 @@ import { focusManager } from '@tanstack/react-query';
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export const Body = () => {
-  const { csrf } = useAuth();
+  const { csrf, isInit } = useAuth();
 
 
   //This is to refetch the queries when the app is focused again
@@ -29,25 +30,29 @@ export const Body = () => {
 
   return (
     <SafeAreaView style={style.safeViewLayout}>
-      <View style={style.content}>
-        <NavigationContainer>
-          <RootStack.Navigator
-            screenOptions={{
-              headerShown: false,
-              contentStyle: { backgroundColor: colors.neutral[200] }
-            }}>
-            {csrf ?
-              <>
-                <RootStack.Screen name="PrivateScreen" component={PrivateScreen} />
-                <RootStack.Group screenOptions={{ presentation: 'modal' }}>
-                  <RootStack.Screen name="AddWordModal" component={AddWordModal} />
-                </RootStack.Group>
-              </>
-              : <RootStack.Screen name="PublicScreen" component={PublicScreen} />
-            }
-          </RootStack.Navigator>
-        </NavigationContainer>
-      </View>
+      {isInit ?
+        <View style={style.content}>
+          <NavigationContainer>
+            <RootStack.Navigator
+              screenOptions={{
+                headerShown: false,
+                contentStyle: { backgroundColor: colors.neutral[200] }
+              }}>
+              {csrf ?
+                <>
+                  <RootStack.Screen name="PrivateScreen" component={PrivateScreen} />
+                  <RootStack.Group screenOptions={{ presentation: 'modal' }}>
+                    <RootStack.Screen name="AddWordModal" component={AddWordModal} />
+                  </RootStack.Group>
+                </>
+                : <RootStack.Screen name="PublicScreen" component={PublicScreen} />
+              }
+            </RootStack.Navigator>
+          </NavigationContainer>
+        </View>
+        :
+        <InitScreen />
+      }
       <Toast />
       <ConfirmationModal />
     </SafeAreaView>

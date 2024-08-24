@@ -45,7 +45,7 @@ export function QuizScreen() {
 
 
 
-    const { data: nUserWords, refetch: reloadNUserWords } = useQuery<number>({
+    const { data: nUserWords, refetch: reloadNUserWords, status: nUserWordQueryStatus } = useQuery<number>({
         queryKey: ['userNUserWords'],
         queryFn: async () => {
             const pageResult = await searchUserWords(0, null, { learned: false, count: true } as UserWordSearchForm)
@@ -65,11 +65,17 @@ export function QuizScreen() {
 
     return (
         <QuizContext.Provider value={{ quiz, setQuiz, selectedOption, setSelectedOption, currentQuestion, setCurrentQuestion }} >
-            <ScreenLayout isStickyButtons={false} containerStyle={{ paddingBottom: 16 }} buttons={<Button disabled={!!(nUserWords && nUserWords < 4)} onPress={() => onCreateQuiz()}>{"Start quiz"}</Button>} >
-                {!nUserWords || nUserWords < 4 ?
-                    <Message type='info' message={`You need at least 4 not learned words to start a quiz. (You only have ${nUserWords})`} />
+            <ScreenLayout isStickyButtons={false} containerStyle={{ paddingBottom: 16 }} buttons={<Button disabled={(nUserWords === undefined || nUserWords < 4)} onPress={() => onCreateQuiz()}>{"Start quiz"}</Button>} >
+                {nUserWordQueryStatus === 'error' ?
+                    <View style={{ marginTop: 50 }}>
+                        <Message type='alert'
+                            message={"Quiz is not available due to server error"} />
+                    </View>
                     :
-                    <Slider value={nQuestions} setValue={setNQuestions} minVal={4} maxVal={nUserWords ? nUserWords : 4} label='Number of words' containerStyle={{ width: '90%', alignSelf: 'center' }} />
+                    !nUserWords || nUserWords < 4 ?
+                        <Message type='info' message={`You need at least 4 not learned words to start a quiz. (You only have ${nUserWords})`} />
+                        :
+                        <Slider value={nQuestions} setValue={setNQuestions} minVal={4} maxVal={nUserWords ? nUserWords : 4} label='Number of words' containerStyle={{ width: '90%', alignSelf: 'center' }} />
                 }
             </ScreenLayout>
             {quiz && <QuizModal />}

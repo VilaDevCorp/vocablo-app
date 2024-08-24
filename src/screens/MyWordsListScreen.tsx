@@ -29,12 +29,13 @@ export function MyWordsListScreen() {
     const { data: userWordPages, refetch: refetchUserWords, status, isFetching: isLoading, fetchNextPage, isFetchingNextPage } = useInfiniteQuery<Page<UserWord>>({
         queryKey: ['myuserwords'],
         placeholderData: keepPreviousData,
+        meta: {
+            errorInfo: 'Error fetching your words'
+        },
         initialPageParam: 0,
-        staleTime: 1,
-        gcTime: 1,
         queryFn: ({ pageParam }) => searchUserWords(pageParam as number, 15, { term: searchTerm } as UserWordSearchForm),
         getNextPageParam: (lastPage) => lastPage.hasNext ? lastPage.pageNumber + 1 : undefined,
-        enabled: false
+        enabled: false,
     })
 
     useRefreshOnFocus(refetchUserWords)
@@ -62,28 +63,33 @@ export function MyWordsListScreen() {
         <ScreenLayout isScrollable={false} containerStyle={{ paddingBottom: 0 }} contentContainerStyle={style.mainBox}>
             <Input value={searchTerm} setValue={setSearchTerm} placeholder='Search'
                 placeholderIcon='search' />
-            {firstRender.current || (isLoading && !isFetchingNextPage) ?
-                <ScrollView contentContainerStyle={style.wordList}>
-                    {Array.from(Array(10).keys()).map((_, index) => <WordCardSkeleton key={index} />)}
-                </ScrollView>
-                :
-                userWordPages?.pages[0].nElements === 0 ?
-                    <View style={{ marginTop: 24 }}>
-                        <Message type='not-found'
-                            message={"No results found."} />
-                    </View>
+            {status === 'error' ?
+                <View style={{marginTop:50}}>
+                    <Message type='alert'
+                        message={"There was an error fetching your words."} />
+                </View>
+                : firstRender.current || (isLoading && !isFetchingNextPage) ?
+                    <ScrollView contentContainerStyle={style.wordList}>
+                        {Array.from(Array(10).keys()).map((_, index) => <WordCardSkeleton key={index} />)}
+                    </ScrollView>
                     :
-                    <>
-                        <FlatList contentContainerStyle={style.wordList}
-                            data={userWordPages?.pages.flatMap(page => page.content)}
-                            onEndReached={() => fetchNextPage()}
-                            onEndReachedThreshold={0.05}
-                            renderItem={({ item }) =>
-                                <WordCard word={item}
-                                    onPress={(id: string) => navigate("WordDetails", { userWordId: id })} />
-                            } />
-                        {isFetchingNextPage ? <FlatListLoadingIndicator /> : undefined}
-                    </>
+                    userWordPages?.pages[0].nElements === 0 ?
+                        <View style={{ marginTop: 24 }}>
+                            <Message type='not-found'
+                                message={"No results found."} />
+                        </View>
+                        :
+                        <>
+                            <FlatList contentContainerStyle={style.wordList}
+                                data={userWordPages?.pages.flatMap(page => page.content)}
+                                onEndReached={() => fetchNextPage()}
+                                onEndReachedThreshold={0.05}
+                                renderItem={({ item }) =>
+                                    <WordCard word={item}
+                                        onPress={(id: string) => navigate("WordDetails", { userWordId: id })} />
+                                } />
+                            {isFetchingNextPage ? <FlatListLoadingIndicator /> : undefined}
+                        </>
             }
         </ScreenLayout>
     );

@@ -9,6 +9,7 @@ import { Typography } from '../../ui/Typography/Typography';
 import { useMutation } from '@tanstack/react-query';
 import { useApi } from '../../../hooks/useApi';
 import { ScoreDisplay } from '../../molecules/ScoreDisplay';
+import { useToast } from '../../../hooks/useToast';
 
 export function QuizModal() {
 
@@ -18,6 +19,9 @@ export function QuizModal() {
     const answeredQuestion = quiz ? quiz.questions[currentQuestion].answerPos !== null : false
     const [score, setScore] = useState<number | undefined>(undefined)
 
+    const { showToast } = useToast()
+
+
     const { sendQuiz } = useApi()
 
     const { mutate: finishQuiz } = useMutation({
@@ -26,7 +30,8 @@ export function QuizModal() {
                 const score = await sendQuiz(quiz)
                 setScore(score)
             }
-        }
+        },
+        onError: () => { showToast('There was an error sending the quiz', 'alert', 'error') }
     })
 
     const selectOption = (nOption: number) => {
