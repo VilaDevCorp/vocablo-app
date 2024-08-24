@@ -46,9 +46,9 @@ export function Button(props: ButtonProps) {
   const getBorderColor = () => {
     switch (variant) {
       case 'solid':
-        return pressed ? colors.accent[600] : colors.primary[500];
+        return pressed ? colors.accent[300] : colors.primary[500];
       case 'outlined':
-        return pressed ? colors.accent[600] : colors.primary[500];
+        return pressed ? colors.accent[300] : colors.primary[500];
       case 'ghost':
         return 'transparent';
     }
@@ -64,7 +64,7 @@ export function Button(props: ButtonProps) {
       case 'outlined':
         return colors.primary[500];
       case 'ghost':
-        return pressed ? colors.accent[600] : colors.primary[500];
+        return pressed ? colors.accent[300] : colors.primary[500];
     }
   };
 

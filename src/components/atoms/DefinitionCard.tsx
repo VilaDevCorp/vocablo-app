@@ -11,7 +11,7 @@ export function DefinitionCard({ definition, isSelected, onSelect }: { definitio
             gap: 8,
             borderWidth: 1,
             backgroundColor: colors.neutral[100],
-            borderColor: isSelected ? colors.accent[600] : colors.primary[500],
+            borderColor: isSelected ? colors.accent[300] : colors.primary[500],
             borderRadius: 12,
         },
     })

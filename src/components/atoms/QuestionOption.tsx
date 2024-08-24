@@ -50,7 +50,7 @@ const style = StyleSheet.create({
         borderRadius: 12,
     },
     selectedOption: {
-        borderColor: colors.accent[600],
+        borderColor: colors.accent[300],
     },
     selectedCorrectOption: {
         borderColor: colors.success[100],

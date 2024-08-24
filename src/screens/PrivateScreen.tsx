@@ -25,7 +25,7 @@ export function PrivateScreen() {
         tabBarLabel: () => null,
         tabBarIconStyle: { color: 'red' },
         tabBarIcon: ({ focused, color, size }) => {
-          const iconColor = focused ? colors.accent[600] : colors.primary[500];
+          const iconColor = focused ? colors.accent[300] : colors.primary[500];
           switch (props.route.name) {
             case "Home":
               return <Icon type="home" size={size} color={iconColor} />;

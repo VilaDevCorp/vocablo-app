@@ -14,7 +14,7 @@ export function InfoMessage({
   return (
     <View style={[{flexDirection: 'row', gap: 8, alignItems: 'center'}, style]}>
       <View style={{alignSelf: 'flex-start'}}>
-        <Icon type="info" size={20} color={colors.accent[600]} />
+        <Icon type="info" size={20} color={colors.accent[300]} />
       </View>
       <Typography style={{flex: 1}}>{children}</Typography>
     </View>

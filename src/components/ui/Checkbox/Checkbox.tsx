@@ -22,7 +22,7 @@ export function Checkbox({
       onPressOut={() => setPressed(false)}
       onPress={() => onChange(checked => !checked)}>
       <View style={[style.checkbox, pressed && style.pressed]}>
-        {checked && <Icon type="check" size={24} color={colors.accent[600]} />}
+        {checked && <Icon type="check" size={24} color={colors.accent[300]} />}
       </View>
       <Typography>{children}</Typography>
     </Pressable>
@@ -47,5 +47,5 @@ const style = StyleSheet.create({
     borderColor: colors.primary[500],
     backgroundColor: 'transparent',
   },
-  pressed: {borderColor: colors.accent[600]},
+  pressed: {borderColor: colors.accent[300]},
 });

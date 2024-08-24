@@ -106,7 +106,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
   },
   inputBoxFocus: {
-    borderColor: colors.accent[600],
+    borderColor: colors.accent[300],
   },
   inputBoxDisabled: {
     opacity: 0.4,
