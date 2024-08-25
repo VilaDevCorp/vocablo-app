@@ -75,7 +75,7 @@ export function QuizScreen() {
                     !nUserWords || nUserWords < 4 ?
                         <Message type='info' message={`You need at least 4 not learned words to start a quiz. (You only have ${nUserWords})`} />
                         :
-                        <Slider value={nQuestions} setValue={setNQuestions} minVal={4} maxVal={nUserWords ? nUserWords : 4} label='Number of words' containerStyle={{ width: '90%', alignSelf: 'center' }} />
+                        <Slider value={nQuestions} setValue={setNQuestions} minVal={4} maxVal={nUserWords ? nUserWords : 4} label='Number of words' containerStyle={{ width: '90%', alignSelf: 'center' }} hideSlider={nUserWords === 4} />
                 }
             </ScreenLayout>
             {quiz && <QuizModal />}

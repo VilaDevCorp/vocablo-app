@@ -14,10 +14,11 @@ interface SliderProps {
     icon?: SystemIcons
     disabled?: boolean
     containerStyle?: StyleProp<ViewStyle>
+    hideSlider?: boolean
 }
 
 export function Slider(props: SliderProps) {
-    const { value, setValue, minVal = 4, maxVal = 100, label, icon, disabled, containerStyle } = props
+    const { value, setValue, minVal = 4, maxVal = 100, label, icon, disabled, containerStyle, hideSlider } = props
 
 
     return (
@@ -28,13 +29,14 @@ export function Slider(props: SliderProps) {
             }
             <View>
                 <Text style={style.valueText}>{Math.round(value)}</Text>
-                <ExtSlider value={value} onValueChange={(val) => setValue(val[0])}
+                {!hideSlider && <ExtSlider value={value} onValueChange={(val) => setValue(val[0])}
                     disabled={disabled}
                     step={1}
                     minimumValue={minVal} maximumValue={maxVal} thumbStyle={style.thumb}
                     minimumTrackStyle={style.filledTrack}
                     maximumTrackStyle={style.unfilledTrack}
                 />
+                }
             </View >
         </View>
     )
