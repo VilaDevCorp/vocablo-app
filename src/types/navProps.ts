@@ -5,10 +5,10 @@ export type RootStackParamList = {
 };
 
 export type PrivateScreenNavList = {
-  Home: undefined;
   MyWords: undefined;
   AddWord: undefined;
   Quiz: undefined;
+  Profile: undefined;
 };
 
 export type PublicScreenNavList = {

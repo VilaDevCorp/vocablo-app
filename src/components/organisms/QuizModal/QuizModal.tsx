@@ -83,7 +83,7 @@ export function QuizModal() {
                             onAnswer={selectOption}
                         />
                         :
-                        <ScoreDisplay score={score} />
+                        <ScoreDisplay score={score} showMessage />
                     }
                 </ScreenLayout >
             }

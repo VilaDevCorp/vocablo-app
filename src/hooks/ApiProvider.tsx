@@ -1,5 +1,5 @@
 import { createContext, ReactNode } from 'react';
-import { Quiz, RegisterUserForm, User } from '../types/entities';
+import { Quiz, RegisterUserForm, User, UserWordProgress } from '../types/entities';
 import { ApiResponse } from '../types/types';
 import { conf } from '../conf';
 import { checkResponseException } from '../utils/utilFunctions';
@@ -16,6 +16,7 @@ interface ApiContext {
     password: string,
   ) => Promise<void>;
   sendQuiz: (quiz: Quiz) => Promise<number>;
+  getUserProgress: () => Promise<UserWordProgress>;
 }
 
 export const ApiContext = createContext<ApiContext>({} as ApiContext);
@@ -107,13 +108,29 @@ export const ApiProvider = ({ children }: { children: ReactNode }) => {
     return resObject.data;
   }
 
+  const getUserProgress = async (): Promise<UserWordProgress> => {
+    const url = `${apiUrl}userword/progress`;
+    const options: RequestInit = {
+      method: 'GET',
+      credentials: 'include',
+      headers: new Headers({
+        'X-API-CSRF': csrf ? csrf : '',
+      }),
+    };
+    const res = await fetch(url, options);
+    const resObject: ApiResponse<UserWordProgress> = await res.json();
+    checkResponseException(res, resObject);
+    return resObject.data;
+  }
+
   const value: ApiContext = {
     register,
     sendValidationCode,
     validateAccount,
     forgottenPassword,
     resetPassword,
-    sendQuiz
+    sendQuiz,
+    getUserProgress
   };
 
   return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;

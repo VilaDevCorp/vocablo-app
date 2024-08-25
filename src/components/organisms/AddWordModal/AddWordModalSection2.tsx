@@ -47,7 +47,7 @@ export function AddWordModalSection2({ }: {}) {
     })
 
     const onClose = () => {
-        navigation.getParent()?.navigate('Home')
+        navigation.getParent()?.navigate('MyWords')
     }
 
     const setDefinition = (definition: Definition, definitionIndex: number) => {

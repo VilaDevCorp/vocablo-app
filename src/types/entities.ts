@@ -76,3 +76,10 @@ export interface QuizQuestion {
 export interface CreateQuizForm {
     nQuestions: number;
 }
+
+export interface UserWordProgress {
+    totalWords: number;
+    learnedWords: number;
+    unlearnedWords: number;
+}
+

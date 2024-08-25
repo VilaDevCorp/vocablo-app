@@ -9,7 +9,7 @@ interface ScoreMessage {
     message: string
 }
 
-export function ScoreDisplay({ score }: { score: number | undefined }) {
+export function ScoreDisplay({ score, showMessage, isPercentage }: { score: number | undefined, showMessage?: boolean, isPercentage?: boolean }) {
 
     const message = getMessage(score)
     const color = getColor(score)
@@ -26,16 +26,16 @@ export function ScoreDisplay({ score }: { score: number | undefined }) {
     }
 
     useEffect(() => {
-        showText()
+        showMessage && showText()
     }, [])
 
     return (
         <View style={style.mainBox}>
-            <ScoreGraph percentage={score ? score : 0} />
-            <Animated.View style={[style.textBox, { opacity: textOpacity }]} >
+            <ScoreGraph percentage={score ? score : 0} isPercentage={isPercentage} />
+            {showMessage && <Animated.View style={[style.textBox, { opacity: textOpacity }]} >
                 <Text style={[style.title]} >{message.title}</Text>
                 <Text style={[style.message]}>{message.message}</Text>
-            </Animated.View>
+            </Animated.View>}
         </View >
     )
 }

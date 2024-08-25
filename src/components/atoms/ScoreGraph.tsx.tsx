@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Circle, Svg } from 'react-native-svg';
 import { colors } from '../../styleVars';
-import { Icon } from '../ui/Icon/Icon';
 import { Animated, StyleSheet, Text, View } from 'react-native';
 
 
@@ -9,7 +8,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
-export function ScoreGraph({ size = 120, percentage }: { size?: number, percentage: number }) {
+export function ScoreGraph({ size = 120, percentage, isPercentage }: { size?: number, percentage: number, isPercentage?: boolean }) {
 
     const RADIUS = size / 2.5;
     const CIRCUNFERENCE = 2 * Math.PI * RADIUS;
@@ -32,9 +31,9 @@ export function ScoreGraph({ size = 120, percentage }: { size?: number, percenta
 
     const colorInterpolation = circleCompletion.interpolate({
         inputRange: [0, 25, 35, 49, 50, 65, 66],
-        outputRange: [colors.error[500]!, colors.error[500]!,
-        colors.warning[500]!, colors.warning[500]!, colors.primary[500]!,
-        colors.primary[500]!, colors.success[500]!],
+        outputRange: [colors.error[500] as string, colors.error[500] as string,
+        colors.warning[500] as string, colors.warning[500] as string, colors.primary[500] as string,
+        colors.primary[500] as string, colors.success[500] as string],
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp'
     })
@@ -52,7 +51,10 @@ export function ScoreGraph({ size = 120, percentage }: { size?: number, percenta
                 width: '100%', height: '100%', backgroundColor: 'transparent', justifyContent: 'center',
                 alignItems: 'center'
             }} >
-                <AnimatedText style={[style.text, { color: colorInterpolation }]}>{textScore.toFixed(0)}</AnimatedText>
+                <AnimatedText style={[style.text, {
+                    color: colorInterpolation, fontSize: isPercentage ? 24 : 32,
+                    lineHeight: isPercentage ? 28 : 40
+                }]}>{textScore.toFixed(0) + (isPercentage ? "%" : "")}</AnimatedText>
             </View>
         </ AnimatedSvg>
     )
@@ -60,9 +62,7 @@ export function ScoreGraph({ size = 120, percentage }: { size?: number, percenta
 
 const style = StyleSheet.create({
     text: {
-        fontSize: 32,
         textAlignVertical: 'center',
-        lineHeight: 40,
         fontFamily: 'MerriweatherSans-Regular',
         color: colors.primary[500],
     },
