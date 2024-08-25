@@ -12,6 +12,7 @@ import { useConfirm } from '../hooks/useConfirm';
 import { Icon } from '../components/ui/Icon/Icon';
 import { EditWordModal } from '../components/organisms/EditWordModal';
 import { ScreenLayout } from '../components/organisms/ScreenLayout';
+import { useToast } from '../hooks/useToast';
 
 export function WordDetailsScreen({ }: {}) {
 
@@ -36,13 +37,16 @@ export function WordDetailsScreen({ }: {}) {
 
 
     const queryClient = useQueryClient()
+    const { showToast } = useToast()
 
     const { mutate: deleteUserWord, isPending: isDeletingUserWord } =
         useMutation({
             mutationFn: (id: string) => removeUserWord(id),
             onSuccess: () => {
+                showToast('Word deleted!', 'check', 'success')
                 queryClient.invalidateQueries({ queryKey: ['myuserwords'] })
                 goBack()
+
             }
         })
 
@@ -59,7 +63,7 @@ export function WordDetailsScreen({ }: {}) {
 
     return (
         userWord && <>
-            <ScreenLayout isScrollable={true} isStickyButtons contentContainerStyle={{gap:16}} containerStyle={style.mainBox}
+            <ScreenLayout isScrollable={true} isStickyButtons contentContainerStyle={{ gap: 16 }} containerStyle={style.mainBox}
                 buttons={
                     <>
                         <Button onPress={() => { setEditModalVisible(true) }} variant='solid'>

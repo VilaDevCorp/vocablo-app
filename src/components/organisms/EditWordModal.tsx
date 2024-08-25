@@ -39,7 +39,7 @@ export function EditWordModal({ word, onClose }: { word: UserWord, onClose: () =
                 && form.definitions.some(def => def.definition !== '')) {
                 return updateUserWord(form)
             }
-            return new Promise((resolve, reject) => reject());
+            return Promise.reject();
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['userwordDetails'] });
@@ -66,14 +66,14 @@ export function EditWordModal({ word, onClose }: { word: UserWord, onClose: () =
         })
     }
 
-    const disabledButton = form.term === '' || form.definitions?.length < 1 || form.definitions?.some(def => def.definition === '')
+    const disabledButton = form.term === '' || form.definitions?.length < 1 || form.definitions?.some(def => def.definition === '') || isUpdatingWord
 
 
 
     return (
         <Modal title='Edit word' onClose={onClose}>
             <ScreenLayout buttons={
-                <Button disabled={disabledButton} onPress={() => { onUpdateUserWord() }}>
+                <Button disabled={disabledButton} onPress={() => { onUpdateUserWord() }} isLoading={isUpdatingWord}>
                     {'Save'}
                 </Button>
             } containerStyle={{ paddingBottom: 16 }}

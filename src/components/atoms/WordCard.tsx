@@ -3,7 +3,6 @@ import { UserWord } from '../../types/entities';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Typography } from '../ui/Typography/Typography';
 import { colors } from '../../styleVars';
-import ProgressSvg from '../atoms/progress.svg'
 import { Progress } from './Progress';
 export function WordCard({ word, onPress }:
     { word: UserWord, onPress: (id: string) => void }) {

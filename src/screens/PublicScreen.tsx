@@ -6,8 +6,7 @@ import { ForgottenPasswordScreen } from './ForgottenPasswordScreen';
 import { ValidationScreen } from './ValidationScreen';
 import { PublicScreenNavList } from '../types/navProps';
 import { ResetPasswordScreen } from './ResetPasswordScreen';
-import { colors } from '../styleVars';
-import { Header } from '../components/ui/Button/Header/Header';
+import { StackHeader } from '../components/molecules/StackHeader';
 
 const Stack = createNativeStackNavigator<PublicScreenNavList>();
 
@@ -18,7 +17,7 @@ export function PublicScreen() {
         animation: 'fade',
         contentStyle: { padding: 16 },
         headerShadowVisible: false,
-        header: props => <Header {...props} />,
+        header: props => <StackHeader {...props} />,
       }}>
       <Stack.Screen
         options={{ headerShown: false }}
