@@ -15,7 +15,7 @@ export function PublicScreen() {
     <Stack.Navigator
       screenOptions={{
         animation: 'fade',
-        contentStyle: { padding: 16 },
+        contentStyle: { padding: 16, backgroundColor: 'transparent' },
         headerShadowVisible: false,
         header: props => <StackHeader {...props} />,
       }}>
