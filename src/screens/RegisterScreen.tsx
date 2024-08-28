@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-import {useError} from '../hooks/useError';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {ApiError, ErrorCode} from '../types/types';
+import React, { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+import { useError } from '../hooks/useError';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { ApiError, ErrorCode } from '../types/types';
 import StatusCode from 'status-code-enum';
-import {useMutation} from '@tanstack/react-query';
-import {useApi} from '../hooks/useApi';
+import { useMutation } from '@tanstack/react-query';
+import { useApi } from '../hooks/useApi';
 import {
   emailValidator,
   minLength8Validator,
@@ -13,23 +13,25 @@ import {
   upperLowerCaseValidator,
   useValidator,
 } from '../hooks/useValidator';
-import {PublicScreenNavList} from '../types/navProps';
-import {Input} from '../components/ui/Input/Input';
-import {FormField} from '../components/ui/FormField/FormField';
-import {Button} from '../components/ui/Button/Button';
-import {useToast} from '../hooks/useToast';
-import {Checkbox} from '../components/ui/Checkbox/Checkbox';
-import {Form} from '../components/ui/Form/Form';
-import {Link} from '../components/ui/Link/Link';
+import { PublicScreenNavList } from '../types/navProps';
+import { Input } from '../components/ui/Input/Input';
+import { FormField } from '../components/ui/FormField/FormField';
+import { Button } from '../components/ui/Button/Button';
+import { useToast } from '../hooks/useToast';
+import { Checkbox } from '../components/ui/Checkbox/Checkbox';
+import { Form } from '../components/ui/Form/Form';
+import { Link } from '../components/ui/Link/Link';
+import { Modal } from '../components/ui/Modal/Modal';
+import { TermsModal } from '../components/organisms/TermsModal';
 
 export function RegisterScreen() {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [repeatPassword, setRepeatPassword] = useState<string>('');
-  const {register} = useApi();
+  const { register } = useApi();
 
-  const {navigate} = useNavigation<NavigationProp<PublicScreenNavList>>();
+  const { navigate } = useNavigation<NavigationProp<PublicScreenNavList>>();
 
   const [serviceTermsAccepted, setServiceTermsAccepted] =
     useState<boolean>(false);
@@ -60,10 +62,10 @@ export function RegisterScreen() {
     useState<boolean>(false);
   const [serviceTermsAcceptedError, setServiceTermsAcceptedError] =
     useState<string>('');
-  const [, setIsTermsOfServiceOpen] = useState<boolean>(false);
+  const [isTermsOfServiceOpen, setIsTermsOfServiceOpen] = useState<boolean>(false);
 
-  const {showToast} = useToast();
-  const {setError} = useError(navigate);
+  const { showToast } = useToast();
+  const { setError } = useError(navigate);
 
   const passwordMatchValidate = () => {
     if (!passwordMatchDirty && (password || repeatPassword)) {
@@ -109,13 +111,13 @@ export function RegisterScreen() {
       passwordMatch &&
       serviceTermsAccepted
     ) {
-      await register({username, email, password});
+      await register({ username, email, password });
     } else {
       throw new Error('There are errors in the form');
     }
   };
 
-  const {mutate: onRegister, isPending: isLoading} = useMutation({
+  const { mutate: onRegister, isPending: isLoading } = useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
       showToast('User succesfully registered', 'check', 'success');
@@ -150,7 +152,7 @@ export function RegisterScreen() {
     !serviceTermsAccepted;
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Form
         fields={
           <>
@@ -220,7 +222,8 @@ export function RegisterScreen() {
                     {'I accept the '}
                     <Link
                       onPress={e => {
-                        e.stopPropagation();
+                        e.preventDefault();
+                        setIsTermsOfServiceOpen(true);
                       }}>
                       {'terms of service'}
                     </Link>
@@ -247,6 +250,8 @@ export function RegisterScreen() {
           </>
         }
       />
+      {isTermsOfServiceOpen &&
+        <TermsModal onClose={() => setIsTermsOfServiceOpen(false)} />}
     </View>
   );
 }
