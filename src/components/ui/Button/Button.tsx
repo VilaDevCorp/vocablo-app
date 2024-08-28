@@ -77,7 +77,7 @@ export function Button(props: ButtonProps) {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center',
-      minHeight: 40,
+      minHeight: 45,
       gap: 8,
       alignItems: 'center',
       borderWidth: 2,
