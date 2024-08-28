@@ -16,7 +16,7 @@ export function StackHeader(props: HeaderProps) {
     const { navigation, customGoBack, isModal, options, containerStyle } = props
 
     const onClose = () => {
-        navigation.getParent()?.navigate('Home')
+        navigation.getParent()?.navigate('MyWords')
     }
 
     return (

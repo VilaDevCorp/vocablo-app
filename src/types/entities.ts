@@ -58,6 +58,8 @@ export interface UserWordSearchForm extends SearchFilters {
     lang?: string;
     learned?: boolean;
     count?: boolean;
+    orderBy?: string;
+    orderDir?: string;
 }
 
 export interface Quiz {

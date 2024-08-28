@@ -17,7 +17,10 @@ import Home from './icons/home.svg';
 import Word from './icons/word.svg';
 import CircleCheck from './icons/circle-check.svg';
 import SearchX from './icons/search-x.svg';
+import Filter from './icons/filter.svg';
 import { ColorValue } from 'react-native';
+import ArrowUp from './icons/arrow-up.svg';
+import ArrowDown from './icons/arrow-down.svg';
 
 export type IconProps = {
   type: SystemIcons;
@@ -32,17 +35,20 @@ export type SystemIcons =
   | 'lock'
   | 'mail'
   | 'arrow-left'
+  | 'arrow-right'
+  | 'arrow-up'
+  | 'arrow-down'
   | 'info'
   | 'repeat'
   | 'alert'
   | 'close'
   | 'search'
-  | 'arrow-right'
   | 'trash'
   | 'home'
   | 'word'
   | 'circle-check'
-  | 'search-x';
+  | 'search-x'
+  | 'filter';
 
 export const Icon = (props: IconProps) => {
   const { type, size = 16, color = colors.primary[500] } = props;
@@ -89,6 +95,12 @@ function getIconType(
       return <CircleCheck width={size} height={size} color={color} />;
     case 'search-x':
       return <SearchX width={size} height={size} color={color} />;
+    case 'filter':
+      return <Filter width={size} height={size} color={color} />;
+    case 'arrow-up':
+      return <ArrowUp width={size} height={size} color={color} />;
+    case 'arrow-down':
+      return <ArrowDown width={size} height={size} color={color} />;
     default:
       return <></>;
   }

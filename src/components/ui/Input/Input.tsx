@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, TextInput, TextInputProps, View, ViewStyle } from 'react-native';
 import { Icon, SystemIcons } from '../Icon/Icon';
 import { colors } from '../../../styleVars';
 import { Typography } from '../Typography/Typography';
@@ -15,6 +15,7 @@ type InputProps = TextInputProps & {
   hasError?: boolean;
   isTextArea?: boolean;
   isLoading?: boolean;
+  boxStyle?: StyleProp<ViewStyle>
 };
 
 export const Input = (props: InputProps) => {
@@ -28,12 +29,13 @@ export const Input = (props: InputProps) => {
     hasError,
     isTextArea,
     isLoading,
+    boxStyle,
     ...nativeInputProps
   } = props;
   const [isFocus, setIsFocus] = useState(false);
 
   return (
-    <View style={style.labelAndInputBox}>
+    <View style={[style.labelAndInputBox, boxStyle]}>
       {label && <View style={{ flexDirection: 'row', gap: 4 }}>
         {icon && <Icon type={icon} color={colors.neutral[700]} size={24} />}
         <Typography variant="label">{props.label}</Typography></View>
@@ -81,6 +83,7 @@ export const Input = (props: InputProps) => {
 const style = StyleSheet.create({
   labelAndInputBox: {
     gap: 8,
+    width: '100%',
   },
   inputAndErrorBox: {
     gap: 4,
