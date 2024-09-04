@@ -21,6 +21,8 @@ import Filter from './icons/filter.svg';
 import { ColorValue } from 'react-native';
 import ArrowUp from './icons/arrow-up.svg';
 import ArrowDown from './icons/arrow-down.svg';
+import Show from './icons/show.svg';
+import Hide from './icons/hide.svg';
 
 export type IconProps = {
   type: SystemIcons;
@@ -48,7 +50,10 @@ export type SystemIcons =
   | 'word'
   | 'circle-check'
   | 'search-x'
-  | 'filter';
+  | 'filter'
+  | 'show'
+  | 'hide';
+
 
 export const Icon = (props: IconProps) => {
   const { type, size = 16, color = colors.primary[500] } = props;
@@ -101,6 +106,10 @@ function getIconType(
       return <ArrowUp width={size} height={size} color={color} />;
     case 'arrow-down':
       return <ArrowDown width={size} height={size} color={color} />;
+    case 'show':
+      return <Show width={size} height={size} color={color} />;
+    case 'hide':
+      return <Hide width={size} height={size} color={color} />;
     default:
       return <></>;
   }

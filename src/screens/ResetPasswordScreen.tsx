@@ -21,6 +21,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {CodeInput} from '../components/ui/CodeInput/CodeInput';
 import {InfoMessage} from '../components/atoms/InfoMessage';
 import {useError} from '../hooks/useError';
+import { PasswordInput } from '../components/ui/Input/PasswordInput';
 
 type Props = NativeStackScreenProps<PublicScreenNavList, 'ResetPassword'>;
 
@@ -144,7 +145,7 @@ export function ResetPasswordScreen({route}: Props) {
             />
             <FormField
               input={
-                <Input
+                <PasswordInput
                   value={password}
                   setValue={setPassword}
                   icon="lock"
@@ -159,7 +160,7 @@ export function ResetPasswordScreen({route}: Props) {
             />
             <FormField
               input={
-                <Input
+                <PasswordInput
                   value={repeatPassword}
                   icon="lock"
                   setValue={setRepeatPassword}

@@ -4,8 +4,9 @@ import { Icon, SystemIcons } from '../Icon/Icon';
 import { colors } from '../../../styleVars';
 import { Typography } from '../Typography/Typography';
 import { LoadingIcon } from '../Icon/icons/LoadingIcon';
+import { IconButton } from '../Button/IconButton';
 
-type InputProps = TextInputProps & {
+export type InputProps = TextInputProps & {
   setValue: (value: string) => void;
   type?: 'text' | 'password';
   label?: string
@@ -16,6 +17,7 @@ type InputProps = TextInputProps & {
   isTextArea?: boolean;
   isLoading?: boolean;
   boxStyle?: StyleProp<ViewStyle>
+  onShowIcon?: () => void;
 };
 
 export const Input = (props: InputProps) => {
@@ -30,6 +32,7 @@ export const Input = (props: InputProps) => {
     isTextArea,
     isLoading,
     boxStyle,
+    onShowIcon,
     ...nativeInputProps
   } = props;
   const [isFocus, setIsFocus] = useState(false);
@@ -48,6 +51,7 @@ export const Input = (props: InputProps) => {
             hasError && style.inputBoxError,
             disabled && style.inputBoxDisabled,
             isTextArea && { minHeight: 100, height: 'auto', alignItems: 'flex-start' },
+            onShowIcon && { paddingRight: 0 },
           ]}>
           {placeholderIcon && <Icon type={placeholderIcon} color={colors.neutral[400]} size={24} />}
           <TextInput
@@ -73,6 +77,7 @@ export const Input = (props: InputProps) => {
             editable={!disabled}
           />
           {isLoading && <LoadingIcon color={colors.neutral[700]} size={24} />}
+          {onShowIcon && <IconButton variant='ghost' icon={type === 'password' ? 'show' : 'hide'} onPress={onShowIcon} />}
         </View>
       </View>
     </View>

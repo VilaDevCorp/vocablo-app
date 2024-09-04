@@ -18,6 +18,7 @@ import StatusCode from 'status-code-enum';
 import {useError} from '../hooks/useError';
 import {Typography} from '../components/ui/Typography/Typography';
 import {FormField} from '../components/ui/FormField/FormField';
+import { PasswordInput } from '../components/ui/Input/PasswordInput';
 
 export function LoginScreen() {
   const {navigate} = useNavigation<NavigationProp<PublicScreenNavList>>();
@@ -107,7 +108,7 @@ export function LoginScreen() {
             />
             <FormField
               input={
-                <Input
+                <PasswordInput
                   value={password}
                   setValue={setPassword}
                   onBlur={() => setDirtyPassword()}

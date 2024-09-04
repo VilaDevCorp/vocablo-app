@@ -23,6 +23,7 @@ import { Form } from '../components/ui/Form/Form';
 import { Link } from '../components/ui/Link/Link';
 import { Modal } from '../components/ui/Modal/Modal';
 import { TermsModal } from '../components/organisms/TermsModal';
+import { PasswordInput } from '../components/ui/Input/PasswordInput';
 
 export function RegisterScreen() {
   const [username, setUsername] = useState<string>('');
@@ -186,7 +187,7 @@ export function RegisterScreen() {
             />
             <FormField
               input={
-                <Input
+                <PasswordInput
                   value={password}
                   setValue={setPassword}
                   autoCapitalize="none"
@@ -202,7 +203,7 @@ export function RegisterScreen() {
             />
             <FormField
               input={
-                <Input
+                <PasswordInput
                   value={repeatPassword}
                   setValue={setRepeatPassword}
                   autoCapitalize="none"
