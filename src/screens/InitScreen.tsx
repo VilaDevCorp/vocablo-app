@@ -16,9 +16,11 @@ export function InitScreen() {
 
 
 const style = StyleSheet.create({
-    mainBox:{
+    mainBox: {
         width: '100%',
         height: '100%',
-        marginTop: '25%',
-        alignItems: 'center'},
+        alignItems: 'center',
+        padding: 16,
+    },
+
 })
