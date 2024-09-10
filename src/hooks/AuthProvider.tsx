@@ -13,6 +13,7 @@ export interface AuthContext {
   authenticate: (email: string, password: string) => void;
   logout: () => void;
   isInit: boolean;
+  deleteAccount: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContext>({} as AuthContext);
@@ -152,6 +153,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // }
   };
 
+
+  const deleteAccount = async (): Promise<void> => {
+    if (csrf) {
+      try {
+        const url = `${apiUrl}account`;
+        const options: RequestInit = {
+          method: 'DELETE',
+          headers: new Headers({
+            'X-API-CSRF': csrf ? csrf : '',
+          }),
+          credentials: 'include',
+        };
+        const res = await fetch(url, options);
+        const result: ApiResponse<void> = await res.json();
+        checkResponseException(res, result);
+        logout();
+      } catch (error) {
+        throw new Error('There was an error deleting account');
+      }
+    } else {
+      throw new Error('No csrf token');
+    }
+  };
+
+
   const logout = () => {
     cleanUserParams();
   };
@@ -167,6 +193,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     authenticate,
     logout,
     isInit,
+    deleteAccount,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -8,10 +8,35 @@ import { colors } from '../styleVars';
 import { Typography } from '../components/ui/Typography/Typography';
 import { UserProgress } from '../components/molecules/UserProgress';
 import { ScreenLayout } from '../components/organisms/ScreenLayout';
+import { ConfirmationModal } from '../components/organisms/ConfirmationModal';
+import { useConfirm } from '../hooks/useConfirm';
+import { useMutation } from '@tanstack/react-query';
+import { useToast } from '../hooks/useToast';
 
 
 export function ProfileScreen() {
-    const { user, logout } = useAuth();
+    const { user, logout, deleteAccount } = useAuth();
+    const { showToast } = useToast()
+
+    const { showConfirmationModal } = useConfirm()
+    const onDeleteAccount = () => {
+        showConfirmationModal(
+            "Are you sure you want to delete your account?",
+            () => {
+                deleteAccountMutation()
+            })
+    }
+
+    const { mutate: deleteAccountMutation } = useMutation({
+        mutationFn: deleteAccount,
+        onSuccess: () => {
+            showToast("Account deleted", "alert", "success")
+        },
+        onError: (err) => {
+            showToast("Error deleting account", "alert", "error")
+        }
+    })
+
     return (
         <ScreenLayout isScrollable={true} contentContainerStyle={{}}>
             <Header title="Info" />
@@ -25,8 +50,10 @@ export function ProfileScreen() {
                     <Typography>{user?.email}</Typography>
                 </View>
                 <Button variant='outlined' onPress={logout}>Logout</Button>
+                <Button variant='ghost' fontColor={colors.error[500]} onPress={onDeleteAccount}>Delete account</Button>
             </View>
             <UserProgress />
+            <ConfirmationModal />
         </ScreenLayout>
     );
 }
