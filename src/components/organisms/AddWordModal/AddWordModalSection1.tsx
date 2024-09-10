@@ -123,12 +123,12 @@ export function AddWordModalSection1({ }: {}) {
                         <Message type='info' message={"Search word definitions or write your own term in the next screen. "} />
                     </View>
                     :
-                    !isLoadingWordSearch && wordsPage?.content.length === 0 ?
+                    !isLoadingWordSearch && wordsPage?.content?.length === 0 ?
                         <View style={{ marginTop: 24 }}>
                             <Message type='not-found' message={"We can't find your word. Click NEXT to create your own word."} />
                         </View> :
                         <ScrollView contentContainerStyle={style.wordsBox}>
-                            {wordsPage?.content.map((word, wordIndex) =>
+                            {wordsPage?.content?.map((word, wordIndex) =>
                                 <View style={{ gap: 8 }} key={word.id}>
                                     <View style={style.termBox}>
                                         <Typography style={{

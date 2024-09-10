@@ -30,7 +30,7 @@ export function MyWordsListScreen() {
 
     const { navigate } = useNavigation<NavigationProp<MyWordsStackNavList>>()
 
-    const [searchForm, setSearchForm] = useState<UserWordSearchForm>({ term: "", orderBy: "creationDate", order: "DESC" })
+    const [searchForm, setSearchForm] = useState<UserWordSearchForm>({ term: "", orderBy: "creationDate", order: "desc" })
     const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false)
 
     const { data: userWordPages, refetch: refetchUserWords, status, isFetching: isLoading, fetchNextPage, isFetchingNextPage } = useInfiniteQuery<Page<UserWord>>({
